@@ -1,0 +1,49 @@
+name: glimpse
+
+on: [push]
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Test
+        run: npm run test:prod
+      - name: Archive build
+        if: success()
+        uses: actions/upload-artifact@v2
+        with:
+          name: glimpse
+          path: |
+            ./build
+            ./coverage
+
+  deploy:
+    name: Deploy gh and codecov
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download all artifacts
+        uses: actions/download-artifact@v2
+      - name: Codecov
+        uses: codecov/codecov-action@v1.1.1
+      - name: Deploy app as GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3.7.0-6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: "./"
+          force_orphan: true
+          keep_files: false
