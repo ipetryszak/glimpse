@@ -1,8 +1,6 @@
 import * as React from 'react';
 import Search from "../../components/search";
 
-import styles from './home.module.css';
-
 export interface HomeProps {
 }
 
