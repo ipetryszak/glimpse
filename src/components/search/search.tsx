@@ -1,15 +1,11 @@
 import * as React from 'react';
-import styles from './search.module.css';
+import styles from './search.module.scss';
 
 export interface SearchProps {
 }
 
 const Search: React.FC< SearchProps > = props => {
-    return (
-        <div>
-            <h1>Search</h1>
-        </div>
-    );
+    return <input className={styles.input} type="text" name="search" placeholder="Search" />
 };
 
 export default Search;
