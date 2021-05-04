@@ -10,7 +10,7 @@ const Home: React.FC< HomeProps > = props => {
     return (
         <div>
             <h1>Home</h1>
-            <Search />
+            <Search handleSubmit={(search: any)=>{console.log(search)}}/>
         </div>
     );
 };
