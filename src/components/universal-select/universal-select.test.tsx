@@ -7,7 +7,7 @@ describe('UniversalSelect Component', () => {
 
     it('should render correctly', async () => {
         render( <UniversalSelect /> );
-        const el = await screen.findByText(/UniversalSelect/i);
+        const el = await screen.findByText(/Universal Select/i);
         expect(el).toBeInTheDocument();
     });
 });
