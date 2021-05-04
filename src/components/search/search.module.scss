@@ -1,3 +1,12 @@
+@mixin button {
+  position: absolute;
+  top: .5rem;
+  width: 2rem;
+  height: 2.5rem;
+  border: none;
+  outline: none;
+}
+
 form {
   position: relative;
   width: 22.5rem;
@@ -22,23 +31,13 @@ form {
 }
 
 .buttonCancel {
-  position: absolute;
-  top: .5rem;
+  @include button;
   right: 3rem;
-  width: 2rem;
-  height: 2.5rem;
-  border: none;
-  outline: none;
   background: url('img/cancel.svg') no-repeat;
 }
 
 .buttonSearch {
-  position: absolute;
-  top: .5rem;
+  @include button;
   right: .5rem;
-  width: 2rem;
-  height: 2.5rem;
-  border: none;
-  outline: none;
   background: url('img/search.svg') no-repeat;
 }
