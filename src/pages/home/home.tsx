@@ -11,7 +11,7 @@ const Home: React.FC< HomeProps > = props => {
     return (
         <div>
             <h1>Home</h1>
-            <Search handleSubmit={(search: any)=>{console.log(search)}} history={exampleHistory}/>
+            <Search onSubmit={(search: any)=>{console.log(search)}} history={exampleHistory}/>
         </div>
     );
 };

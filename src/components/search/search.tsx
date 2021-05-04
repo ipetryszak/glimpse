@@ -3,22 +3,23 @@ import styles from './search.module.scss';
 import {useState} from "react";
 
 export interface SearchProps {
-    handleSubmit: Function,
+    onSubmit: Function,
     history?: string[]
 }
 
-const Search: React.FC< SearchProps > = ( { handleSubmit, history } ) => {
+const Search: React.FC< SearchProps > = ( { onSubmit, history } ) => {
 
     const [search, setSearch] = useState('');
 
-    const handleFormSubmit = (event: React.SyntheticEvent) => {
+    const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
-        if(search.length) handleSubmit(search);
+        if(search.length) onSubmit(search);
     }
 
     return (
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleSubmit}>
             <input className={styles.input}
+                   aria-label="search input"
                    type="text"
                    name="search"
                    list="history"
@@ -27,7 +28,8 @@ const Search: React.FC< SearchProps > = ( { handleSubmit, history } ) => {
                    autoComplete="off"
                    onChange={ e => setSearch(e.target.value)}
             />
-            <datalist id="history">
+            <datalist id="history"
+                      aria-label="search history list">
                 {
                     history && (
                         history.map(
@@ -39,6 +41,7 @@ const Search: React.FC< SearchProps > = ( { handleSubmit, history } ) => {
             {
                 !!search.length && (
                     <input type="button"
+                           aria-label="clear button"
                            className={styles.buttonCancel}
                            onClick={ () => setSearch('') }
                     />
@@ -46,8 +49,9 @@ const Search: React.FC< SearchProps > = ( { handleSubmit, history } ) => {
             }
 
             <input type="button"
+                   aria-label="search button"
                    className={styles.buttonSearch}
-                   onClick={ () => handleSubmit(search) }
+                   onClick={ () => onSubmit(search) }
                    disabled = { !search.length }
             />
         </form>
