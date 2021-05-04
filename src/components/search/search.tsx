@@ -11,8 +11,13 @@ const Search: React.FC< SearchProps > = ( { handleSubmit, history } ) => {
 
     const [search, setSearch] = useState('');
 
+    const handleFormSubmit = (event: React.SyntheticEvent) => {
+        event.preventDefault();
+        if(search.length) handleSubmit(search);
+    }
+
     return (
-        <form>
+        <form onSubmit={handleFormSubmit}>
             <input className={styles.input}
                    type="text"
                    name="search"
