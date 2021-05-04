@@ -3,10 +3,11 @@ import styles from './search.module.scss';
 import {useState} from "react";
 
 export interface SearchProps {
-    handleSubmit: Function
+    handleSubmit: Function,
+    history?: string[]
 }
 
-const Search: React.FC< SearchProps > = ( {handleSubmit} ) => {
+const Search: React.FC< SearchProps > = ( { handleSubmit, history } ) => {
 
     const [search, setSearch] = useState('');
 
@@ -15,12 +16,21 @@ const Search: React.FC< SearchProps > = ( {handleSubmit} ) => {
             <input className={styles.input}
                    type="text"
                    name="search"
+                   list="history"
                    placeholder="Search"
                    value={search}
                    autoComplete="off"
                    onChange={ e => setSearch(e.target.value)}
             />
-
+            <datalist id="history">
+                {
+                    history && (
+                        history.map(
+                            (entrance, index) => ( <option value={entrance} key={index}/> )
+                        )
+                    )
+                }
+            </datalist>
             {
                 !!search.length && (
                     <input type="button"
@@ -35,7 +45,6 @@ const Search: React.FC< SearchProps > = ( {handleSubmit} ) => {
                    onClick={ () => handleSubmit(search) }
                    disabled = { !search.length }
             />
-
         </form>
 )
 };
