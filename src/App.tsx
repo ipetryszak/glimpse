@@ -2,14 +2,13 @@ import React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 import './App.css';
+import Home from "./pages/home";
 
 export default function App() {
   return (
       <Router basename='/glimpse'>
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
+          <Route exact path="/" component={Home} />
           <Route path="/search">
             <Search />
           </Route>
@@ -22,10 +21,6 @@ export default function App() {
         </Switch>
       </Router>
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
 }
 
 function Search() {
