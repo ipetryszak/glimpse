@@ -1,0 +1,43 @@
+@mixin button {
+  position: absolute;
+  top: .5rem;
+  width: 2rem;
+  height: 2.5rem;
+  border: none;
+  outline: none;
+}
+
+form {
+  position: relative;
+  width: 22.5rem;
+}
+
+.input {
+  width: 22.5rem;
+  height: 2.5rem;
+  border: none;
+  box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08);
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  background-color: #fff;
+  padding: 12px 10px 12px 20px;
+  outline: none;
+
+  &::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+}
+
+.buttonCancel {
+  @include button;
+  right: 3rem;
+  background: url('img/cancel.svg') no-repeat;
+}
+
+.buttonSearch {
+  @include button;
+  right: .5rem;
+  background: url('img/search.svg') no-repeat;
+}
