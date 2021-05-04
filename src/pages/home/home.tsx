@@ -6,12 +6,13 @@ export interface HomeProps {
 }
 
 const Home: React.FC< HomeProps > = props => {
-    const exampleHistory = ['the do', 'christmas']
+    const exampleHistory = ['the do', 'christmas'];
+    const videoProviders = ['YouTube', 'Vimeo'];
     return (
         <div>
             <h1>Home</h1>
             <Search onSubmit={(search: any)=>{console.log(search)}} history={exampleHistory} />
-            <UniversalSelect options={['YouTube', 'Vimeo']} onSelect={(e: any) => {console.log(e)}} />
+            <UniversalSelect options={videoProviders} onSelect={(e: any) => {console.log(e)}} />
         </div>
     );
 };
