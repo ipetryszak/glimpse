@@ -12,24 +12,18 @@ export const headerSlice = createSlice({
         name: 'header',
         initialState,
         reducers: {
-
+            setVideoPlatform: (state, action) => {
+                state.selectedVideoPlatform = action.payload;
+            }
         },
         extraReducers: {
-           /* [fetchRefProjects.pending]: (state) => {
-                if (!state.loading) state.loading = true;
-            },
-            [fetchRefProjects.fulfilled]: (state, action) => {
-                if(state.loading) state.loading = false;
-                state.loaded = true;
-                state.refProjects = [...action.payload];
-            },
-            [fetchRefProjects.rejected]: (state, action) => {
-                if (state.loading) state.loading = false;
-                state.error = action.error;
-            }*/
         },
     }
 
 );
+
+export const { setVideoPlatform } = headerSlice.actions;
+
+export const selectHeader = (state: RootState) => state.headerReducer;
 
 export default headerSlice.reducer;
