@@ -1,0 +1,26 @@
+$logo-color: #E50914;
+$background-color: #FFFFFF;
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 4.5rem;
+  background: $background-color;
+
+  h1 {
+    flex: 1;
+    color: $logo-color;
+    font-family: Roboto, sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 1rem;
+    margin: 0 3rem;
+    cursor: pointer;
+  }
+
+  div {
+    flex: 3;
+    display: flex;
+
+  }
+}
