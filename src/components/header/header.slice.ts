@@ -6,6 +6,7 @@ const initialState = {
     loading: false,
     error: '',
     selectedVideoPlatform: VideoPlatforms.YouTube,
+    videosList: {}
 };
 
 export const headerSlice = createSlice({

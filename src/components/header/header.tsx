@@ -6,6 +6,7 @@ import UniversalSelect from "../universal-select";
 import {VideoPlatforms} from "../../app/video-platforms";
 import {selectHeader} from "./header.slice";
 import { setVideoPlatform } from "./header.slice"
+import {YoutubeService} from "../../api/youtube.service";
 
 import styles from './header.module.scss';
 
@@ -19,16 +20,22 @@ const Header: React.FC< HeaderProps > = () => {
 
     const exampleHistory = ['the do', 'christmas'];
 
-    const onSelect = ( option: VideoPlatforms) => {
+    const handleSelect = ( option: VideoPlatforms) => {
         dispatch(setVideoPlatform(option));
+    }
+
+    const handleSubmit = async ( searchPhrase: string ) => {
+        const service = new YoutubeService('AIzaSyDWfuBLRCtHUWiukBWNGHtZBcs7kpTfkWY');
+        const res = await service.search(searchPhrase);
+        console.log(res);
     }
 
     return (
         <div className={styles.header}>
             <h1>glimpse</h1>
             <div>
-                <UniversalSelect options={ Object.values(VideoPlatforms) } onSelect={ onSelect } />
-                <Search onSubmit={(search: any)=>{console.log(search)}} history={exampleHistory} />
+                <UniversalSelect options={ Object.values(VideoPlatforms) } onSelect={ handleSelect } />
+                <Search onSubmit={handleSubmit} history={exampleHistory} />
             </div>
         </div>
     )
