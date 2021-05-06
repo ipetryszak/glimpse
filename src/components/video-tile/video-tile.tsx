@@ -1,8 +1,13 @@
 import * as React from 'react';
+import {IPopularVideos} from "../../models/youtube";
 
 import styles from './video-tile.module.scss';
 
-const VideoTile: React.FC = () => {
+export interface VideoTileProps {
+    videoData: IPopularVideos
+}
+
+const VideoTile: React.FC< VideoTileProps > = () => {
 
     return (
        <h1>VideoTile</h1>

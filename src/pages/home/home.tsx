@@ -12,7 +12,7 @@ const Home: React.FC< HomeProps > = props => {
         <div className={styles.container}>
             <h1 className={styles.header}>Trending now</h1>
             <main>
-                <VideoTile />
+                <VideoTile videoData={}/>
             </main>
         </div>
 
