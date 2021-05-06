@@ -5,10 +5,10 @@ import {useState} from "react";
 export interface SearchProps {
     onSubmit: Function,
     history?: string[],
-    limitHistory: number
+    limitHistory?: number
 }
 
-const Search: React.FC< SearchProps > = ( { onSubmit, history }, limitHistory ) => {
+const Search: React.FC< SearchProps > = ( { onSubmit, history, limitHistory } ) => {
 
     const [search, setSearch] = useState('');
 
@@ -32,9 +32,9 @@ const Search: React.FC< SearchProps > = ( { onSubmit, history }, limitHistory ) 
             <datalist id="history"
                       aria-label="search history list">
                 {
-                    history && (
+                    history && limitHistory && (
                         history.slice(0, limitHistory).map(
-                            (entrance, index) => ( <option value={entrance} key={index}/> )
+                            (entry, index) => ( <option value={entry} key={index}/> )
                         )
                     )
                 }
