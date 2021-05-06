@@ -1,8 +1,9 @@
 import axios from 'axios';
+import {stringify} from "querystring";
 
 export class YoutubeService {
     baseUrl: string = 'https://www.googleapis.com/youtube/v3';
-    maxResults: number = 25;
+    maxResults: number = 24;
 
     constructor(private apiKey: string = '') {}
 
@@ -28,20 +29,19 @@ export class YoutubeService {
     }
 
     async getPopular(regionCode: string, pageToken?: string) {
-        const params = { params:
+        const params = stringify(
                 {
                     pageToken,
-                    part: 'snippet',
+                    part: ['snippet','statistics'],
                     chart: 'mostPopular',
                     regionCode,
                     maxResults: this.maxResults,
                     key: this.apiKey
-                }
-        }
+                });
 
-        const url = `${this.baseUrl}/videos`;
+        const url = `${this.baseUrl}/videos?`;
 
-        const popular = await axios.get(url, params);
+        const popular = await axios.get(url+params);
 
         return popular.data.items.map( (video: any) => (
             {
@@ -49,7 +49,12 @@ export class YoutubeService {
                 title: video.snippet.title,
                 channelTitle: video.snippet.channelTitle,
                 publishedAt: video.snippet.publishedAt,
-                thumbnail: video.snippet.thumbnails.high,
+                thumbnail: video.snippet.thumbnails.medium,
+                statistics: {
+                    viewCount: video.statistics.viewCount,
+                    likeCount: video.statistics.likeCount,
+                    dislikeCount: video.statistics.dislikeCount
+                }
             }
         ));
     }

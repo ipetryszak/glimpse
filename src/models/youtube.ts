@@ -3,5 +3,14 @@ export interface IPopularVideos {
     title: string;
     channelTitle: string;
     publishedAt: Date;
-    thumbnail: string;
+    thumbnail: {
+        height: number;
+        width: number;
+        url: string;
+    },
+    statistics: {
+        viewCount: number,
+        likeCount: number,
+        dislikeCount: number
+    }
 }
