@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import Search from "../search";
 import UniversalSelect from "../universal-select";
 import {VideoPlatforms} from "../../app/video-platforms";
-import {selectHeader} from "./header.slice";
+import {fetchPopular, selectHeader} from "./header.slice";
 import { setVideoPlatform } from "./header.slice"
 import {YoutubeService} from "../../api/youtube.service";
 
 import styles from './header.module.scss';
+import {useEffect} from "react";
 
 export interface HeaderProps {
 
@@ -16,7 +17,11 @@ export interface HeaderProps {
 
 const Header: React.FC< HeaderProps > = () => {
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+    useEffect( () => {
+        dispatch(fetchPopular());
+    },[]);
 
     const exampleHistory = ['the do', 'christmas'];
 

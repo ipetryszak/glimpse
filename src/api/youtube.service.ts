@@ -4,7 +4,11 @@ export class YoutubeService {
     baseUrl: string = 'https://www.googleapis.com/youtube/v3';
     maxResults: number = 25;
 
-    constructor(private apiKey: string) {}
+    constructor(private apiKey: string = '') {}
+
+    public set(apiKey: string) {
+        this.apiKey = apiKey;
+    }
 
     search(searchPhrase: string, pageToken?: string) {
         const params = { params:
