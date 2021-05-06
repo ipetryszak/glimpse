@@ -14,8 +14,7 @@ const initialState = {
 };
 
 export const fetchPopular: any = createAsyncThunk('fetchPopularVideos', async () => {
-    const response = await ytService.getPopular('PL');
-    return response;
+    return ytService.getPopular('PL');
 });
 
 export const headerSlice = createSlice({
