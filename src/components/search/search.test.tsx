@@ -16,12 +16,24 @@ describe('Search Component', () => {
         expect(el).toBeInTheDocument();
     });
 
-    it('should contain the history entrances', async () => {
+    it('should contain the history entries', async () => {
         const searchHistory = ['funny cats', 'sn15 start', '80s music'];
-        render( <Search onSubmit={onSubmit} history={searchHistory}/> );
+        render( <Search onSubmit={onSubmit} history={searchHistory} limitHistory={10} /> );
 
         const el = await screen.findByLabelText('search history list');
         expect(el.children.length).toEqual(searchHistory.length);
+    });
+
+    it('should display limited number of entries', async () => {
+        const LIMIT_ENTRIES: number = 10;
+        //array of 12 entries
+        const searchHistory = ['funny cats', 'sn15 start', '80s music', 'funny cats', 'sn15 start', '80s music',
+                                'funny cats', 'sn15 start', '80s music', 'funny cats', 'sn15 start', '80s music'];
+
+        render( <Search onSubmit={onSubmit} history={searchHistory} limitHistory={LIMIT_ENTRIES} /> );
+
+        const el = await screen.findByLabelText('search history list');
+        expect(el.children.length).toEqual(LIMIT_ENTRIES);
     });
 
     it('should not fire onSubmit function when input is empty', async () => {
