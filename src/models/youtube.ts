@@ -2,7 +2,7 @@ export interface IPopularVideos {
     id: string;
     title: string;
     channelTitle: string;
-    publishedAt: Date;
+    publishedAt: string;
     thumbnail: {
         height: number;
         width: number;

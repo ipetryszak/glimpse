@@ -1,9 +1,16 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+
+import { Provider } from 'react-redux';
 import Home from './home'
+import {store} from "../../app/store";
+
 
 test('renders home component properly', () => {
-    render(<Home />);
-    const textElement = screen.getByText(/Home/i);
+    render(
+        <Provider store={store}>
+            <Home />
+        </Provider>);
+    const textElement = screen.getByText(/Trending now/i);
     expect(textElement).toBeInTheDocument();
 });
