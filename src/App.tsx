@@ -8,8 +8,8 @@ import Header from "./components/header";
 export default function App() {
   return (
       <>
-        <Header />
         <Router basename='/glimpse'>
+          <Header />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/search">

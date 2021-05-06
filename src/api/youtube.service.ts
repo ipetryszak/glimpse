@@ -43,7 +43,7 @@ export class YoutubeService {
 
         const popular = await axios.get(url, params);
 
-        const popularPick = popular.data.items.map( (video: any) => (
+        return popular.data.items.map( (video: any) => (
             {
                 id: video.id,
                 title: video.snippet.title,
@@ -52,8 +52,6 @@ export class YoutubeService {
                 thumbnail: video.snippet.thumbnails.high,
             }
         ));
-
-        return popularPick;
     }
 
 }
