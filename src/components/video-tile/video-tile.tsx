@@ -8,7 +8,6 @@ export interface VideoTileProps {
 }
 
 const VideoTile: React.FC< VideoTileProps > = ({videoData}) => {
-    const TITLE_MAX_LENGTH: number = 30;
 
     return (
         <div className={styles.container}>
