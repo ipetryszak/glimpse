@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 
 export class YoutubeService {
     baseUrl: string = 'https://www.googleapis.com/youtube/v3';

@@ -1,23 +1,21 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
+import {useEffect} from "react";
 
 import Search from "../search";
 import UniversalSelect from "../universal-select";
-import {VideoPlatforms} from "../../app/video-platforms";
+
+import {saveSearchEntryToLS} from "../../app/utils";
+import { VideoPlatforms } from "../../app/video-platforms";
 import {fetchPopular, selectHeader} from "./header.slice";
 import { setVideoPlatform } from "./header.slice"
-import {YoutubeService} from "../../api/youtube.service";
 
 import styles from './header.module.scss';
-import {useEffect} from "react";
 
-export interface HeaderProps {
-
-}
-
-const Header: React.FC< HeaderProps > = () => {
+const Header: React.FC = () => {
 
     const dispatch = useDispatch();
+    const { selectedVideoPlatform } = useSelector(selectHeader);
 
     useEffect( () => {
         dispatch(fetchPopular());
@@ -30,9 +28,7 @@ const Header: React.FC< HeaderProps > = () => {
     }
 
     const handleSubmit = async ( searchPhrase: string ) => {
-        const service = new YoutubeService('AIzaSyDWfuBLRCtHUWiukBWNGHtZBcs7kpTfkWY');
-        const res = await service.search(searchPhrase);
-        console.log(res);
+        saveSearchEntryToLS(selectedVideoPlatform, searchPhrase);
     }
 
     return (
