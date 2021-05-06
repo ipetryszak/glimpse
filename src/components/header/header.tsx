@@ -24,6 +24,7 @@ const Header: React.FC = () => {
 
     useEffect( () => {
         dispatch(fetchPopular());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     const handleSelect = ( option: VideoPlatforms) => {
