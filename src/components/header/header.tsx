@@ -12,7 +12,7 @@ import {fetchPopular, selectHeader, setVideoPlatform} from "./header.slice";
 
 import styles from './header.module.scss';
 
-const NUMBER_OF_HISTORY_ENTRIES = 10;
+const NUMBER_OF_SEARCH_HISTORY_ENTRIES = 10;
 
 const Header: React.FC = () => {
     let history = useHistory();
@@ -42,7 +42,7 @@ const Header: React.FC = () => {
             <h1>glimpse</h1>
             <div>
                 <UniversalSelect options={ Object.values(VideoPlatforms) } onSelect={ handleSelect } />
-                <Search onSubmit={handleSubmit} history={searchHistory} limitHistory={NUMBER_OF_HISTORY_ENTRIES}/>
+                <Search onSubmit={handleSubmit} history={searchHistory} limitHistory={NUMBER_OF_SEARCH_HISTORY_ENTRIES}/>
             </div>
         </div>
     )

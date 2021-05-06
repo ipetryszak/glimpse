@@ -1,19 +1,21 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent} from '@testing-library/react';
-import configureStore from 'redux-mock-store';
+import { store } from "../../app/store";
 
 import Header from './header'
 
-describe('UniversalSelect Component', () => {
-
-    beforeEach(() => {
-
-    });
+describe('Header Component', () => {
 
     it('should render correctly', async () => {
-        render(<Header />);
-        const el = await screen.findByText("Header");
+        render(
+            <Provider store={store}>
+                <Header />
+            </Provider>
+            );
+
+        const el = await screen.findByText("glimpse");
         expect(el).toBeInTheDocument();
     });
 });
