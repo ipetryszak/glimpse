@@ -6,7 +6,7 @@ export class YoutubeService {
 
     constructor(private apiKey: string = '') {}
 
-    public set(apiKey: string) {
+    public set key(apiKey: string) {
         this.apiKey = apiKey;
     }
 
@@ -27,7 +27,7 @@ export class YoutubeService {
         return axios.get(url, params);
     }
 
-    getPopular(regionCode: string, pageToken?: string) {
+    async getPopular(regionCode: string, pageToken?: string) {
         const params = { params:
                 {
                     pageToken,
@@ -41,7 +41,19 @@ export class YoutubeService {
 
         const url = `${this.baseUrl}/videos`;
 
-        return axios.get(url, params);
+        const popular = await axios.get(url, params);
+
+        const popularPick = popular.data.items.map( (video: any) => (
+            {
+                id: video.id,
+                title: video.snippet.title,
+                channelTitle: video.snippet.channelTitle,
+                publishedAt: video.snippet.publishedAt,
+                thumbnail: video.snippet.thumbnails.high,
+            }
+        ));
+
+        return popularPick;
     }
 
 }

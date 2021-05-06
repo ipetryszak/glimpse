@@ -3,7 +3,7 @@ import {RootState} from "../../app/store";
 import { VideoPlatforms } from "../../app/video-platforms";
 import {YoutubeService} from "../../api/youtube.service";
 
-const ytService = new YoutubeService();
+const ytService = new YoutubeService('');
 
 const initialState = {
     loading: false,
