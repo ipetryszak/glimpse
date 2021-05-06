@@ -1,5 +1,8 @@
 import * as React from 'react';
 import {IPopularVideos} from "../../models/youtube";
+import {useState} from "react";
+
+import Rectangle from "../../skeletons/rectangle";
 
 import styles from './video-tile.module.scss';
 
@@ -9,10 +12,13 @@ export interface VideoTileProps {
 
 const VideoTile: React.FC< VideoTileProps > = ({videoData}) => {
 
+    const [loaded, setLoaded] = useState(false);
+
     return (
         <div className={styles.container}>
 
-            <img src={videoData?.thumbnail?.url} alt={videoData?.title}/>
+            <img src={videoData?.thumbnail?.url} alt={videoData?.title} onLoad={() => setLoaded(true)}/>
+            { !loaded && <Rectangle height={180} width={320} /> }
             <h1>{videoData?.title}</h1>
             <h2>{videoData?.channelTitle}</h2>
 
