@@ -6,7 +6,7 @@ import Home from './home'
 import {store} from "../../app/store";
 
 
-test('renders home component properly', () => {
+test('should renders home component properly', () => {
     render(
         <Provider store={store}>
             <Home />
