@@ -11,13 +11,22 @@ const initialState = {
     loading: false,
     error: '',
     selectedVideoPlatform: VideoPlatforms.YouTube,
-    videosList: [],
+    youtubeSearch: [],
+    vimeoSearch: [],
     popular: []
 };
 
 export const fetchPopular: any = createAsyncThunk('fetchPopularVideos', async () => {
     return ytService.getPopular('PL');
 });
+
+export const search = createAsyncThunk('searchVideos',
+    async (arg, {getState}) => {
+        // @ts-ignore
+        const { selectedVideoPlatform } = getState().headerReducer;
+    return ytService.getPopular('PL');
+}
+);
 
 export const headerSlice = createSlice({
         name: 'header',

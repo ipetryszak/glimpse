@@ -4,6 +4,7 @@ import {stringify} from "querystring";
 export class YoutubeService {
     baseUrl: string = 'https://www.googleapis.com/youtube/v3';
     maxResults: number = 24;
+    maxResultsSearch: number = 5;
 
     constructor(private apiKey: string = '') {}
 
@@ -18,7 +19,7 @@ export class YoutubeService {
                                         pageToken,
                                         part: 'snippet',
                                         type: 'video',
-                                        maxResults: this.maxResults,
+                                        maxResults: this.maxResultsSearch,
                                         key: this.apiKey
                                     }
                         }

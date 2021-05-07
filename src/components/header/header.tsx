@@ -8,7 +8,7 @@ import UniversalSelect from "../universal-select";
 
 import {getSearchEntriesFromLS, saveSearchEntryToLS} from "../../app/utils";
 import {VideoPlatforms} from "../../app/video-platforms";
-import {fetchPopular, selectHeader, setVideoPlatform} from "./header.slice";
+import {fetchPopular, search, selectHeader, setVideoPlatform} from "./header.slice";
 
 import styles from './header.module.scss';
 import ApiKey from "../api-key";
@@ -37,6 +37,9 @@ const Header: React.FC = () => {
     const handleSubmit = async ( searchPhrase: string ) => {
         saveSearchEntryToLS(selectedVideoPlatform, searchPhrase);
         setSearchHistory( getSearchEntriesFromLS(selectedVideoPlatform) );
+
+        dispatch(search());
+
         history.push(`/search?q=${searchPhrase}`);
     }
 
