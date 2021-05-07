@@ -3,7 +3,6 @@ import '@testing-library/jest-dom';
 import { render, screen, fireEvent} from '@testing-library/react';
 import ApiKey from "./api-key";
 import {API_KEYS_LS, getKeysFromLS} from "../../app/utils";
-import {IKey} from "../../models/key";
 
 describe('ApiKey Component', () => {
 
