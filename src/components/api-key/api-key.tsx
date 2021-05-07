@@ -5,8 +5,7 @@ import {VideoPlatforms} from "../../app/video-platforms";
 import {getKeysFromLS, saveKeysToLS} from "../../app/utils";
 import {IKey} from "../../models/key";
 
-export interface ApiKeyProps {
-}
+export interface ApiKeyProps {}
 
 const ApiKey: React.FC< ApiKeyProps > = ( ) => {
     const [platform, setPlatform] = useState(VideoPlatforms.YouTube);
