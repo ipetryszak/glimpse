@@ -40,7 +40,7 @@ const Header: React.FC = () => {
 
     return (
         <div className={styles.header}>
-            <h1>glimpse</h1>
+            <h1 onClick={ () => history.push(`/`) }>glimpse</h1>
             <div>
                 <UniversalSelect options={ Object.values(VideoPlatforms) } onSelect={ handleSelect } />
                 <Search onSubmit={handleSubmit} history={searchHistory} limitHistory={NUMBER_OF_SEARCH_HISTORY_ENTRIES}/>

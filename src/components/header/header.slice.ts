@@ -9,8 +9,8 @@ const initialState = {
     loading: false,
     error: '',
     selectedVideoPlatform: VideoPlatforms.YouTube,
-    videosList: {},
-    popular: {}
+    videosList: [],
+    popular: []
 };
 
 export const fetchPopular: any = createAsyncThunk('fetchPopularVideos', async () => {
@@ -31,7 +31,7 @@ export const headerSlice = createSlice({
             },
             [fetchPopular.fulfilled]: (state, action) => {
                 if(state.loading) state.loading = false;
-                state.popular = {...action.payload};
+                state.popular = [...action.payload] as any;
             },
             [fetchPopular.rejected]: (state, action) => {
                 if (state.loading) state.loading = false;
