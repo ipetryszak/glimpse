@@ -2,8 +2,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {RootState} from "../../app/store";
 import { VideoPlatforms } from "../../app/video-platforms";
 import {YoutubeService} from "../../api/youtube.service";
+import {getKeysFromLS} from "../../app/utils";
 
-const ytService = new YoutubeService('');
+
+const ytService = new YoutubeService( getKeysFromLS().YouTube );
 
 const initialState = {
     loading: false,
