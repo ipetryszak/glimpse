@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './App.css';
 import Home from "./pages/home";
 import Header from "./components/header";
+import Search from "./pages/search";
 
 export default function App() {
   return (
@@ -12,9 +13,7 @@ export default function App() {
           <Header />
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/search">
-              <Search />
-            </Route>
+            <Route path="/search" component={Search}/>
             <Route path="/watch/:id">
               <Watch />
             </Route>
@@ -27,9 +26,6 @@ export default function App() {
   );
 }
 
-function Search() {
-  return <h2>Search</h2>;
-}
 
 function Watch() {
   return <h2>Watch</h2>;

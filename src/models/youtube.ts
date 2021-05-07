@@ -1,4 +1,4 @@
-export interface IPopularVideos {
+export interface IVideo {
     id: string;
     title: string;
     channelTitle: string;
@@ -7,7 +7,10 @@ export interface IPopularVideos {
         height: number;
         width: number;
         url: string;
-    },
+    }
+}
+
+export interface IPopularVideo extends IVideo{
     statistics: {
         viewCount: number,
         likeCount: number,

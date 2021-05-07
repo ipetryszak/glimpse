@@ -6,7 +6,7 @@ import VideoTile from "../../components/video-tile";
 import SkeletonVideoTile from "../../skeletons/skeleton-video-tile";
 
 import styles from './home.module.scss'
-import {IPopularVideos} from "../../models/youtube";
+import {IPopularVideo} from "../../models/youtube";
 
 export interface HomeProps {
 }
@@ -27,7 +27,7 @@ const Home: React.FC< HomeProps > = props => {
                             <SkeletonVideoTile/>
                         </div>))
                         :
-                        (popular as IPopularVideos[]).map((el: IPopularVideos, idx: number) => (
+                        popular.map((el: IPopularVideo, idx: number) => (
                                 <div key={idx}>
                                     <VideoTile videoData={el}/>
                                 </div>

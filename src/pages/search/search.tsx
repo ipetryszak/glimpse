@@ -3,7 +3,6 @@ import {useSelector} from "react-redux";
 import {selectHeader} from "../../components/header/header.slice";
 
 import SkeletonVideoTile from "../../skeletons/skeleton-video-tile";
-import {IPopularVideos} from "../../models/youtube";
 import VideoTileBig from "../../components/video-tile-big";
 
 import styles from './search.module.scss'
@@ -12,14 +11,13 @@ export interface SearchProps {}
 
 const Search: React.FC< SearchProps > = props => {
 
-    const NUMBER_OF_ELEMENTS = 6;
+    const NUMBER_OF_ELEMENTS = 5;
 
     const { search, loading } = useSelector(selectHeader);
 
      return (
         <main className={styles.container}>
-
-            <VideoTileBig/>
+            <VideoTileBig videoData={search[0]}/>
                 {/*{
                     loading ? [...Array(NUMBER_OF_ELEMENTS)].map( (el, idx) => (
                         <div key={idx}>

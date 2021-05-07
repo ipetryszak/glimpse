@@ -5,9 +5,9 @@ import { createMemoryHistory } from "history";
 import { Router } from "react-router";
 
 import VideoTile from './video-tile'
-import {IPopularVideos} from "../../models/youtube";
+import {IPopularVideo} from "../../models/youtube";
 
-const mockData: IPopularVideos = {
+const mockData: IPopularVideo = {
             "id": "2_W2dfLIz24",
             "title": "EKIPA - CHILL",
             "channelTitle": "EKIPA",

@@ -4,15 +4,24 @@ import {RootState} from "../../app/store";
 import { VideoPlatforms } from "../../app/video-platforms";
 import {YoutubeService} from "../../api/youtube.service";
 import {getKeysFromLS} from "../../app/utils";
+import {IPopularVideo, IVideo} from "../../models/youtube";
 
 
 const ytService = new YoutubeService( getKeysFromLS().YouTube );
 
-const initialState = {
+interface IInitialState {
+    loading: boolean;
+    error: string;
+    selectedVideoPlatform: VideoPlatforms;
+    search: IVideo[];
+    popular: IPopularVideo[];
+}
+
+const initialState: IInitialState = {
     loading: false,
     error: '',
     selectedVideoPlatform: VideoPlatforms.YouTube,
-    search: {},
+    search: [],
     popular: []
 };
 
@@ -39,7 +48,7 @@ export const headerSlice = createSlice({
             },
             [fetchPopular.fulfilled]: (state, action) => {
                 if(state.loading) state.loading = false;
-                state.popular = [...action.payload] as any;
+                state.popular = [...action.payload];
             },
             [fetchPopular.rejected]: (state, action) => {
                 if (state.loading) state.loading = false;
@@ -51,8 +60,7 @@ export const headerSlice = createSlice({
             },
             [search.fulfilled]: (state, action) => {
                 if(state.loading) state.loading = false;
-                state.search = [...action.payload] as any;
-                console.log(state.search)
+                state.search = [...action.payload];
             },
             [search.rejected]: (state, action) => {
                 if (state.loading) state.loading = false;
