@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  height: 7.5rem;
+  width: 20rem;
+  box-shadow: 0 4px 4px rgba(51, 51, 51, 0.04), 0 4px 16px rgba(51, 51, 51, 0.08);
+
+  p {
+    cursor: pointer;
+    margin: 1.3rem 1.2rem;
+    color: rgba(#111111,.5);
+  }
+
+  p:first-child {
+    margin-left: 1.6rem;
+  }
+
+  input {
+    margin-left: 1.6rem;
+    width: 17rem;
+    height: 2.5rem;
+    border: none;
+    box-shadow: 0 4px 4px rgba(51, 51, 51, 0.04), 0 4px 16px rgba(51, 51, 51, 0.08);
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    background-color: #fff;
+    padding: 12px 10px 12px 20px;
+    outline: none;
+
+    &::-webkit-calendar-picker-indicator {
+      display: none;
+    }
+  }
+
+}
+
+.active {
+  color: #111111 !important;
+}

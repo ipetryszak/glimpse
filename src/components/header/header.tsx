@@ -11,6 +11,7 @@ import {VideoPlatforms} from "../../app/video-platforms";
 import {fetchPopular, selectHeader, setVideoPlatform} from "./header.slice";
 
 import styles from './header.module.scss';
+import ApiKey from "../api-key";
 
 const NUMBER_OF_SEARCH_HISTORY_ENTRIES = 10;
 
@@ -21,6 +22,7 @@ const Header: React.FC = () => {
 
     const { selectedVideoPlatform } = useSelector(selectHeader);
     const [searchHistory, setSearchHistory] = useState<string[]>( getSearchEntriesFromLS(VideoPlatforms.YouTube) );
+    const [isApiBox, setIsApiBox] = useState(false);
 
     useEffect( () => {
         dispatch(fetchPopular());
@@ -39,13 +41,21 @@ const Header: React.FC = () => {
     }
 
     return (
-        <div className={styles.header}>
-            <h1 onClick={ () => history.push(`/`) }>glimpse</h1>
-            <div>
-                <UniversalSelect options={ Object.values(VideoPlatforms) } onSelect={ handleSelect } />
-                <Search onSubmit={handleSubmit} history={searchHistory} limitHistory={NUMBER_OF_SEARCH_HISTORY_ENTRIES}/>
+        <>
+            <div className={styles.header}>
+                <h1 onClick={ () => history.push(`/`) }>glimpse</h1>
+                <div>
+                    <UniversalSelect options={ Object.values(VideoPlatforms) } onSelect={ handleSelect } />
+                    <Search onSubmit={handleSubmit} history={searchHistory} limitHistory={NUMBER_OF_SEARCH_HISTORY_ENTRIES}/>
+                </div>
+                <button onClick={ () => setIsApiBox(!isApiBox)}/>
+                { isApiBox &&
+                    <div className={styles.apiComponent}>
+                        <ApiKey/>
+                    </div>
+                }
             </div>
-        </div>
+        </>
     )
 };
 
