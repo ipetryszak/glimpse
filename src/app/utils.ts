@@ -20,5 +20,5 @@ export function saveKeysToLS(data: IKey) {
 
 export function getKeysFromLS() {
     const data = window.localStorage.getItem('apiKeys');
-    return data ?  JSON.parse(data) : {};
+    return data ?  JSON.parse(data) : {YouTube: '', Vimeo: ''};
 }

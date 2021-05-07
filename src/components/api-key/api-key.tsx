@@ -10,7 +10,7 @@ export interface ApiKeyProps {
 
 const ApiKey: React.FC< ApiKeyProps > = ( ) => {
     const [platform, setPlatform] = useState(VideoPlatforms.YouTube);
-    const [keyValue, setKeyValue] = useState<IKey>(getKeysFromLS);
+    const [keyValue, setKeyValue] = useState<IKey>(getKeysFromLS || '');
 
     useEffect(() => {
         saveKeysToLS(keyValue);
@@ -41,7 +41,11 @@ const ApiKey: React.FC< ApiKeyProps > = ( ) => {
                     name="api key"
                     placeholder="Key"
                     autoComplete="off"
-                    value={platform == VideoPlatforms.YouTube ? keyValue?.YouTube : keyValue?.Vimeo}
+                    autoCorrect="false"
+                    value={
+                        platform === VideoPlatforms?.YouTube ? keyValue?.YouTube :
+                            platform === VideoPlatforms?.Vimeo ? keyValue?.Vimeo : ''
+                    }
                     onChange={handleChange}
                 />
             </div>
