@@ -38,7 +38,7 @@ const Header: React.FC = () => {
         saveSearchEntryToLS(selectedVideoPlatform, searchPhrase);
         setSearchHistory( getSearchEntriesFromLS(selectedVideoPlatform) );
 
-        dispatch(search());
+        dispatch(search(searchPhrase));
 
         history.push(`/search?q=${searchPhrase}`);
     }

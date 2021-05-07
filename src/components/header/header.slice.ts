@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
 import {RootState} from "../../app/store";
 import { VideoPlatforms } from "../../app/video-platforms";
 import {YoutubeService} from "../../api/youtube.service";
@@ -11,8 +12,7 @@ const initialState = {
     loading: false,
     error: '',
     selectedVideoPlatform: VideoPlatforms.YouTube,
-    youtubeSearch: [],
-    vimeoSearch: [],
+    search: {},
     popular: []
 };
 
@@ -20,13 +20,10 @@ export const fetchPopular: any = createAsyncThunk('fetchPopularVideos', async ()
     return ytService.getPopular('PL');
 });
 
-export const search = createAsyncThunk('searchVideos',
-    async (arg, {getState}) => {
-        // @ts-ignore
-        const { selectedVideoPlatform } = getState().headerReducer;
-    return ytService.getPopular('PL');
-}
-);
+export const search: any = createAsyncThunk('searchVideos', async (searchPhrase: string) => {
+    return ytService.search(searchPhrase);
+});
+
 
 export const headerSlice = createSlice({
         name: 'header',
@@ -45,6 +42,19 @@ export const headerSlice = createSlice({
                 state.popular = [...action.payload] as any;
             },
             [fetchPopular.rejected]: (state, action) => {
+                if (state.loading) state.loading = false;
+                state.error = action.error;
+            },
+
+            [search.pending]: (state) => {
+                if (!state.loading) state.loading = true;
+            },
+            [search.fulfilled]: (state, action) => {
+                if(state.loading) state.loading = false;
+                state.search = [...action.payload] as any;
+                console.log(state.search)
+            },
+            [search.rejected]: (state, action) => {
                 if (state.loading) state.loading = false;
                 state.error = action.error;
             },

@@ -14,10 +14,11 @@ const Search: React.FC< SearchProps > = props => {
 
     const NUMBER_OF_ELEMENTS = 6;
 
-    const { youtubeSearch, loading } = useSelector(selectHeader);
+    const { search, loading } = useSelector(selectHeader);
 
      return (
         <main className={styles.container}>
+
             <VideoTileBig/>
                 {/*{
                     loading ? [...Array(NUMBER_OF_ELEMENTS)].map( (el, idx) => (

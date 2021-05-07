@@ -12,21 +12,30 @@ export class YoutubeService {
         this.apiKey = apiKey;
     }
 
-    search(searchPhrase: string, pageToken?: string) {
-        const params = { params:
-                                    {
-                                        q: searchPhrase,
-                                        pageToken,
-                                        part: 'snippet',
-                                        type: 'video',
-                                        maxResults: this.maxResultsSearch,
-                                        key: this.apiKey
-                                    }
-                        }
+    async search(searchPhrase: string, pageToken?: string) {
+        const params = stringify(
+            {
+                pageToken,
+                q: searchPhrase,
+                part: 'snippet',
+                type: 'video',
+                maxResults: this.maxResultsSearch,
+                key: this.apiKey
+            });
 
-        const url = `${this.baseUrl}/search`;
+        const url = `${this.baseUrl}/search?`;
 
-        return axios.get(url, params);
+        const search = await axios.get(url + params);
+
+        return search.data.items.map( (video: any) => (
+            {
+                id: video.id.videoId,
+                title: video.snippet.title,
+                channelTitle: video.snippet.channelTitle,
+                publishedAt: video.snippet.publishedAt,
+                thumbnail: video.snippet.thumbnails.high,
+            }
+        ));
     }
 
     async getPopular(regionCode: string, pageToken?: string) {
