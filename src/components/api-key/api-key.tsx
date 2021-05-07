@@ -2,17 +2,28 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import styles from './api-key.module.scss';
 import {VideoPlatforms} from "../../app/video-platforms";
+import {getKeysFromLS, saveKeysToLS} from "../../app/utils";
+import {IKey} from "../../models/key";
 
 export interface ApiKeyProps {
 }
 
 const ApiKey: React.FC< ApiKeyProps > = ( ) => {
     const [platform, setPlatform] = useState(VideoPlatforms.YouTube);
-    const [keyValue, setKeyValue] = useState();
+    const [keyValue, setKeyValue] = useState<IKey>(getKeysFromLS);
 
     useEffect(() => {
+        saveKeysToLS(keyValue);
+    },[keyValue]);
 
-    },[platform]);
+    const handleChange = (e: any) => {
+        setKeyValue(
+            {
+                ...keyValue,
+                [platform]: e.target.value
+            }
+        )
+    }
 
     return (
         <div className={styles.container}>
@@ -30,6 +41,8 @@ const ApiKey: React.FC< ApiKeyProps > = ( ) => {
                     name="api key"
                     placeholder="Key"
                     autoComplete="off"
+                    value={platform == VideoPlatforms.YouTube ? keyValue?.YouTube : keyValue?.Vimeo}
+                    onChange={handleChange}
                 />
             </div>
         </div>
