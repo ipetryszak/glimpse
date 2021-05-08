@@ -8,14 +8,13 @@ const SkeletonVideoTileBig: React.FC< SkeletonVideoTileBigProps > = () => {
     return (
         <div className={styles.container}>
             <Rectangle height={225} width={300} />
-            <div>
+            <div style={{ marginLeft: '0' }}>
                 <h1>
-                    <Rectangle height={40} width={400} />
+                    <Rectangle height={40} width={500} />
                 </h1>
-                    <Rectangle height={20} width={300} />
-                <p>
+                <h1>
                     <Rectangle height={30} width={400} />
-                </p>
+                </h1>
             </div>
         </div>
     )

@@ -1,11 +1,11 @@
 import * as React from 'react';
-import {IVideoExtended} from "../../models/youtube";
 import {useState} from "react";
+import {useHistory} from "react-router-dom";
 
 import Rectangle from "../../skeletons/rectangle";
+import {IVideoExtended} from "../../models/youtube";
 
 import styles from './video-tile.module.scss';
-import {useHistory} from "react-router-dom";
 
 export interface VideoTileProps {
     videoData: IVideoExtended

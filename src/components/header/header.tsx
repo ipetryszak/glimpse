@@ -1,14 +1,14 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux'
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 import Search from "../search";
 import UniversalSelect from "../universal-select";
 
 import {getSearchEntriesFromLS, saveSearchEntryToLS} from "../../app/utils";
 import {VideoPlatforms} from "../../app/video-platforms";
-import {fetchPopular, search, selectHeader, setVideoPlatform} from "./header.slice";
+import {fetchPopular, selectHeader, setVideoPlatform} from "./header.slice";
 
 import styles from './header.module.scss';
 import ApiKey from "../api-key";
@@ -16,7 +16,7 @@ import ApiKey from "../api-key";
 const NUMBER_OF_SEARCH_HISTORY_ENTRIES = 10;
 
 const Header: React.FC = () => {
-    let history = useHistory();
+    const history = useHistory();
 
     const dispatch = useDispatch();
 
@@ -37,9 +37,6 @@ const Header: React.FC = () => {
     const handleSubmit = async ( searchPhrase: string ) => {
         saveSearchEntryToLS(selectedVideoPlatform, searchPhrase);
         setSearchHistory( getSearchEntriesFromLS(selectedVideoPlatform) );
-
-        dispatch(search(searchPhrase));
-
         history.push(`/search?q=${searchPhrase}`);
     }
 

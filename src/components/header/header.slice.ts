@@ -13,7 +13,7 @@ interface IInitialState {
     loading: boolean;
     error: string;
     selectedVideoPlatform: VideoPlatforms;
-    search: IVideoExtended[];
+    searchResult: IVideoExtended[];
     popular: IVideoExtended[];
 }
 
@@ -21,7 +21,7 @@ const initialState: IInitialState = {
     loading: false,
     error: '',
     selectedVideoPlatform: VideoPlatforms.YouTube,
-    search: [],
+    searchResult: [],
     popular: []
 };
 
@@ -60,7 +60,7 @@ export const headerSlice = createSlice({
             },
             [search.fulfilled]: (state, action) => {
                 if(state.loading) state.loading = false;
-                state.search = [...action.payload];
+                state.searchResult = [...action.payload];
             },
             [search.rejected]: (state, action) => {
                 if (state.loading) state.loading = false;
