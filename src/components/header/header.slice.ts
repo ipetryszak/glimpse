@@ -4,7 +4,7 @@ import {RootState} from "../../app/store";
 import { VideoPlatforms } from "../../app/video-platforms";
 import {YoutubeService} from "../../api/youtube.service";
 import {getKeysFromLS} from "../../app/utils";
-import {IPopularVideo, IVideo} from "../../models/youtube";
+import {IVideoExtended, IVideo} from "../../models/youtube";
 
 
 const ytService = new YoutubeService( getKeysFromLS().YouTube );
@@ -13,8 +13,8 @@ interface IInitialState {
     loading: boolean;
     error: string;
     selectedVideoPlatform: VideoPlatforms;
-    search: IVideo[];
-    popular: IPopularVideo[];
+    search: IVideoExtended[];
+    popular: IVideoExtended[];
 }
 
 const initialState: IInitialState = {

@@ -5,9 +5,9 @@ import { createMemoryHistory } from "history";
 import { Router } from "react-router";
 
 import VideoTileBig from './video-tile-big'
-import {IPopularVideos} from "../../models/youtube";
+import {IPopularVideo} from "../../models/youtube";
 
-const mockData: IPopularVideos = {
+const mockData: IPopularVideo = {
             "id": "2_W2dfLIz24",
             "title": "EKIPA - CHILL",
             "channelTitle": "EKIPA",
@@ -27,7 +27,7 @@ const mockData: IPopularVideos = {
 describe('VideoTile Component', () => {
 
     it('should render correctly', async () => {
-        render(<VideoTile videoData={mockData}/>);
+        render(<VideoTileBig videoData={mockData}/>);
 
         const channelTitle = await screen.findByText(mockData.channelTitle);
         const title = await screen.findByText(mockData.title);

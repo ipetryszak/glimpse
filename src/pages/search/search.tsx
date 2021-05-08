@@ -6,6 +6,7 @@ import SkeletonVideoTile from "../../skeletons/skeleton-video-tile";
 import VideoTileBig from "../../components/video-tile-big";
 
 import styles from './search.module.scss'
+import {IVideoExtended} from "../../models/youtube";
 
 export interface SearchProps {}
 
@@ -17,19 +18,18 @@ const Search: React.FC< SearchProps > = props => {
 
      return (
         <main className={styles.container}>
-            <VideoTileBig videoData={search[0]}/>
-                {/*{
-                    loading ? [...Array(NUMBER_OF_ELEMENTS)].map( (el, idx) => (
-                        <div key={idx}>
-                            <SkeletonVideoTile/>
-                        </div>))
-                        :
-                        (youtubeSearch as IPopularVideos[]).map((el: IPopularVideos, idx: number) => (
-                                <div key={idx}>
-                                    <VideoTileBig videoData={el}/>
-                                </div>
-                        ))
-                }*/}
+            {
+                loading ? [...Array(NUMBER_OF_ELEMENTS)].map( (el, idx) => (
+                    <div key={idx}>
+                        <SkeletonVideoTile/>
+                    </div>))
+                    :
+                    search.map((el: IVideoExtended, idx: number) => (
+                            <div key={idx}>
+                                <VideoTileBig videoData={el}/>
+                            </div>
+                    ))
+            }
         </main>
 
     );

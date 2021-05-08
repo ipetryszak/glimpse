@@ -3,6 +3,7 @@ import {stringify} from "querystring";
 
 export class YoutubeService {
     baseUrl: string = 'https://www.googleapis.com/youtube/v3';
+    videosUrl: string = `${this.baseUrl}/videos?`;
     maxResults: number = 24;
     maxResultsSearch: number = 5;
 
@@ -13,32 +14,55 @@ export class YoutubeService {
     }
 
     async search(searchPhrase: string, pageToken?: string) {
+
         const params = stringify(
             {
                 pageToken,
                 q: searchPhrase,
-                part: 'snippet',
                 type: 'video',
                 maxResults: this.maxResultsSearch,
                 key: this.apiKey
             });
 
         const url = `${this.baseUrl}/search?`;
-
         const search = await axios.get(url + params);
 
-        return search.data.items.map( (video: any) => (
+        const idsList: string = search.data.items.map( (video: any) => video.id.videoId ).join(',');
+        return this.getVideos(idsList);
+    }
+
+    async getVideos(ids: string) {
+
+        const params = stringify(
             {
-                id: video.id.videoId,
+                id: ids,
+                part: ['snippet','statistics'],
+                key: this.apiKey
+            });
+
+        const videos = await axios.get(this.videosUrl + params);
+
+        console.log(videos);
+
+        return videos.data.items.map( (video: any) => (
+            {
+                id: video.id,
                 title: video.snippet.title,
+                description: video.snippet.description,
                 channelTitle: video.snippet.channelTitle,
                 publishedAt: video.snippet.publishedAt,
                 thumbnail: video.snippet.thumbnails.high,
+                statistics: {
+                    viewCount: video.statistics.viewCount,
+                    likeCount: video.statistics.likeCount,
+                    dislikeCount: video.statistics.dislikeCount
+                }
             }
         ));
     }
 
-    async getPopular(regionCode: string, pageToken?: string) {
+
+        async getPopular(regionCode: string, pageToken?: string) {
         const params = stringify(
                 {
                     pageToken,
@@ -49,9 +73,7 @@ export class YoutubeService {
                     key: this.apiKey
                 });
 
-        const url = `${this.baseUrl}/videos?`;
-
-        const popular = await axios.get(url+params);
+        const popular = await axios.get(this.videosUrl + params);
 
         return popular.data.items.map( (video: any) => (
             {

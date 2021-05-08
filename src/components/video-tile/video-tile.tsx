@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {IPopularVideo} from "../../models/youtube";
+import {IVideoExtended} from "../../models/youtube";
 import {useState} from "react";
 
 import Rectangle from "../../skeletons/rectangle";
@@ -8,7 +8,7 @@ import styles from './video-tile.module.scss';
 import {useHistory} from "react-router-dom";
 
 export interface VideoTileProps {
-    videoData: IPopularVideo
+    videoData: IVideoExtended
 }
 
 const VideoTile: React.FC< VideoTileProps > = ({videoData}) => {
