@@ -1,5 +1,4 @@
 .container {
-
   margin: .6rem 2rem;
   cursor: pointer;
   display: flex;
@@ -13,18 +12,11 @@
     margin-left: 2rem;
     align-self: center;
 
-
     h1 {
-      max-width: 500px;
+      width: 500px;
       margin: .5rem 0;
       font-size: 1.3rem;
       font-weight: 500;
-    }
-    h2 {
-      margin: 1rem 0;
-      font-size: .9rem;
-      font-weight: 500;
-      color: rgba(0,0,0,.8);
     }
     p {
       margin: 1rem 0;
