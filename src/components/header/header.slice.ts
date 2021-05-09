@@ -4,7 +4,7 @@ import {RootState} from "../../app/store";
 import { VideoPlatforms } from "../../app/video-platforms";
 import {YoutubeService} from "../../api/youtube.service";
 import {getKeysFromLS} from "../../app/utils";
-import {IVideoExtended, IVideo} from "../../models/youtube";
+import {IVideoExtended} from "../../models/youtube";
 
 
 const ytService = new YoutubeService( getKeysFromLS().YouTube );
@@ -15,6 +15,7 @@ interface IInitialState {
     selectedVideoPlatform: VideoPlatforms;
     searchResult: IVideoExtended[];
     popular: IVideoExtended[];
+    nextPageToken: string;
 }
 
 const initialState: IInitialState = {
@@ -22,15 +23,18 @@ const initialState: IInitialState = {
     error: '',
     selectedVideoPlatform: VideoPlatforms.YouTube,
     searchResult: [],
-    popular: []
+    popular: [],
+    nextPageToken: '',
 };
 
 export const fetchPopular: any = createAsyncThunk('fetchPopularVideos', async () => {
     return ytService.getPopular('PL');
 });
 
-export const search: any = createAsyncThunk('searchVideos', async (searchPhrase: string) => {
-    return ytService.search(searchPhrase);
+export const search: any = createAsyncThunk('searchVideos',
+    async (data: any, {dispatch, getState}) => {
+    if(!data?.nextPageToken) dispatch( clearStore(getState()) );
+    return ytService.search(data.phrase, data?.nextPageToken);
 });
 
 
@@ -40,6 +44,10 @@ export const headerSlice = createSlice({
         reducers: {
             setVideoPlatform: (state, action) => {
                 state.selectedVideoPlatform = action.payload;
+            },
+            clearStore: (state, action) => {
+                state.searchResult = [];
+                state.nextPageToken = '';
             }
         },
         extraReducers: {
@@ -60,7 +68,9 @@ export const headerSlice = createSlice({
             },
             [search.fulfilled]: (state, action) => {
                 if(state.loading) state.loading = false;
-                state.searchResult = [...action.payload];
+                console.log(action)
+                state.searchResult = [...state.searchResult, ...action.payload.data];
+                state.nextPageToken = action.payload.nextPageToken;
             },
             [search.rejected]: (state, action) => {
                 if (state.loading) state.loading = false;
@@ -71,7 +81,7 @@ export const headerSlice = createSlice({
 
 );
 
-export const { setVideoPlatform } = headerSlice.actions;
+export const { setVideoPlatform, clearStore } = headerSlice.actions;
 
 export const selectHeader = (state: RootState) => state.headerReducer;
 

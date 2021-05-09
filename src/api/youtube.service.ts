@@ -28,7 +28,8 @@ export class YoutubeService {
         const search = await axios.get(url + params);
 
         const idsList: string = search.data.items.map( (video: any) => video.id.videoId ).join(',');
-        return this.getVideos(idsList);
+
+        return { data: await this.getVideos(idsList), nextPageToken: search.data.nextPageToken };
     }
 
     async getVideos(ids: string) {
@@ -41,8 +42,6 @@ export class YoutubeService {
             });
 
         const videos = await axios.get(this.videosUrl + params);
-
-        console.log(videos);
 
         return videos.data.items.map( (video: any) => (
             {

@@ -23,17 +23,22 @@ const Search: React.FC< SearchProps > = props => {
 
 
     useEffect( () => {
-        dispatch( search(queryString.parse(location.search)['?q']) );
+        dispatch( search({ phrase: queryString.parse(location.search)['?q'] }));
     }, [location])
 
     useEffect( () => {
-        console.log(inView)
+        console.log(inView);
+        dispatch( search(
+            {
+                phrase: queryString.parse(location.search)['?q'],
+                nextPageToken: nextPageToken,
+            } ));
     }, [inView])
 
 
     let NUMBER_OF_ELEMENTS = 5;
 
-    const { searchResult, loading } = useSelector(selectHeader);
+    const { searchResult, nextPageToken, loading } = useSelector(selectHeader);
 
      return (
         <main className={styles.container}>
@@ -44,14 +49,12 @@ const Search: React.FC< SearchProps > = props => {
                         </div>)
                     ) : (
                     searchResult.map((el: IVideoExtended, idx: number) => (
-                        <div key={idx} >
+                        <div key={idx} ref={ searchResult.length - 1 === idx ? ref : null}>
                             <VideoTileBig videoData={el}/>
                         </div>
                     ))
                 )
             }
-
-            <div ref={ref}> <h1>TEST END</h1></div>
         </main>
 
     );
