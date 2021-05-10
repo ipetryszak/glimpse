@@ -13,7 +13,7 @@ const Watch: React.FC< WatchProps > = props => {
     const dispatch = useDispatch();
 
     let { id } = useParams< {id: string} >();
-    const { searchResult, popular, fromHomepage, searchPhrase, loading } = useSelector(selectHeader);
+    const { searchResult, popular, fromHomepage, searchPhrase} = useSelector(selectHeader);
     const [index, setIndex] = useState<any>(null);
 
     useEffect( () => {
@@ -31,12 +31,13 @@ const Watch: React.FC< WatchProps > = props => {
         }
 
         setIndex( index );
+        // eslint-disable-next-line
     },[id]);
 
     return (
         <main className={styles.container} aria-label="watch view">
             { index > 0 &&
-            <Link to={`/watch/${fromHomepage ? popular.data[index-1].id : searchResult.data[index-1].id}`}
+            <Link to={`/watch/${fromHomepage ? popular.data[index-1]?.id : searchResult.data[index-1]?.id}`}
                   className={styles.button} />}
             <div>
                 <iframe
@@ -49,7 +50,7 @@ const Watch: React.FC< WatchProps > = props => {
                     title="Video Player"
                 />
             </div>
-            <Link to={`/watch/${fromHomepage ? popular.data[index+1].id :searchResult.data[index+1]?.id}`}
+            <Link to={`/watch/${fromHomepage ? popular.data[index+1]?.id :searchResult.data[index+1]?.id}`}
                   className={styles.button} />
         </main>
     );
