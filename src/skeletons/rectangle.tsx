@@ -8,7 +8,7 @@ export interface RectangleProps {
 const Rectangle: React.FC< RectangleProps > = ({height, width}) => {
 
     return (
-        <div style={{width: `${width}px`, height: `${height}px`, background: "#e0e0e0", margin: "0"}} > </div>
+        <div style={{width: `${width}px`, height: `${height}px`, background: "#e0e0e0", margin: "0", padding: "0"}} />
     )
 };
 
