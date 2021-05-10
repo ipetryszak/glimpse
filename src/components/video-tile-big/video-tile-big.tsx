@@ -39,7 +39,7 @@ const VideoTileBig: React.FC< VideoTileBigProps > = ({videoData}) => {
                             (`${(Math.round(videoData?.statistics?.viewCount / 100)/10)}k views`) :
                             (`${videoData?.statistics?.viewCount} views`)}
 
-                    {`  •  ${videoData?.channelTitle} `}
+                    {`  •  ${videoData?.channelTitle}`}
                 </p>
 
                 <p>{videoData?.description.substring(0,DESC_CHAR_LIMIT)+' ...'}</p>

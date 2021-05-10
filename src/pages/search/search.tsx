@@ -38,7 +38,7 @@ const Search: React.FC< SearchProps > = props => {
     let NUMBER_OF_ELEMENTS = 5;
 
      return (
-        <main className={styles.container}>
+        <main className={styles.container} aria-label="search view">
             { searchResult.data.map((el: IVideoExtended, idx: number) => (
                     <div key={idx} ref={ searchResult.data.length - 1 === idx ? ref : null}>
                         <VideoTileBig videoData={el}/>

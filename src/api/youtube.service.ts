@@ -4,6 +4,7 @@ import {stringify} from "querystring";
 export class YoutubeService {
     baseUrl: string = 'https://www.googleapis.com/youtube/v3';
     videosUrl: string = `${this.baseUrl}/videos?`;
+    searchUrl = `${this.baseUrl}/search?`;
     maxResults: number = 24;
     maxResultsSearch: number = 5;
 
@@ -24,8 +25,8 @@ export class YoutubeService {
                 key: this.apiKey
             });
 
-        const url = `${this.baseUrl}/search?`;
-        const search = await axios.get(url + params);
+
+        const search = await axios.get(this.searchUrl + params);
 
         const idsList: string = search.data.items.map( (video: any) => video.id.videoId ).join(',');
 

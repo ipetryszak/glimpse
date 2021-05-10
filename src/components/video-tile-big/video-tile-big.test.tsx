@@ -3,13 +3,17 @@ import '@testing-library/jest-dom';
 import { render, screen, fireEvent} from '@testing-library/react';
 import { createMemoryHistory } from "history";
 import { Router } from "react-router";
+import _ from "lodash";
 
 import VideoTileBig from './video-tile-big'
-import {IPopularVideo} from "../../models/youtube";
 
-const mockData: IPopularVideo = {
+const mockData = {
+    nextPageToken: '',
+    data: [
+        {
             "id": "2_W2dfLIz24",
             "title": "EKIPA - CHILL",
+            "description": "some description",
             "channelTitle": "EKIPA",
             "publishedAt": "2021-05-01T16:00:02Z",
             "thumbnail": {
@@ -22,51 +26,29 @@ const mockData: IPopularVideo = {
                 "likeCount": 578405,
                 "dislikeCount": 19708
             }
-        };
+        } ]
+};
 
 describe('VideoTile Component', () => {
 
     it('should render correctly', async () => {
-        render(<VideoTileBig videoData={mockData}/>);
+        render(<VideoTileBig videoData={mockData.data[0]}/>);
 
-        const channelTitle = await screen.findByText(mockData.channelTitle);
-        const title = await screen.findByText(mockData.title);
+        const title = await screen.findByText(mockData.data[0].title);
 
-        expect(channelTitle).toBeInTheDocument();
         expect(title).toBeInTheDocument();
     });
-
     it('should contain video thumbnail', async () => {
-        render( <VideoTile videoData={mockData}/>);
+        render(<VideoTileBig videoData={mockData.data[0]}/>);
         const thumbnail = await screen.findByRole('img');
 
         expect(thumbnail).toBeInTheDocument();
     });
 
-    it('should display M views correctly', async () => {
-        render(<VideoTile videoData={mockData}/>);
+    it('should display views and channel', async () => {
+        render(<VideoTileBig videoData={mockData.data[0]}/>);
 
-        const viewsM = await screen.findByText('8.6M views');
-
-        expect(viewsM).toBeInTheDocument();
-    });
-
-    it('should display K views correctly', async () => {
-        const mockDataCopy = { ...mockData };
-        mockDataCopy.statistics.viewCount = 858812;
-        render(<VideoTile videoData={mockDataCopy}/>);
-
-        const viewsM = await screen.findByText('858.8k views');
-
-        expect(viewsM).toBeInTheDocument();
-    });
-
-    it('should display views correctly', async () => {
-        const mockDataCopy = { ...mockData };
-        mockDataCopy.statistics.viewCount = 85;
-        render(<VideoTile videoData={mockDataCopy}/>);
-
-        const viewsM = await screen.findByText('85 views');
+        const viewsM = await screen.findByLabelText('views and channel')
 
         expect(viewsM).toBeInTheDocument();
     });
@@ -75,12 +57,12 @@ describe('VideoTile Component', () => {
         const history = createMemoryHistory();
         render(
             <Router history={history}>
-                <VideoTile videoData={mockData}/>
+                <VideoTileBig videoData={mockData.data[0]}/>
             </Router>);
         const tile = await screen.findByLabelText('video tile');
 
         tile.click();
 
-        expect(history.location.pathname).toBe(`/watch/${mockData.id}`);
+        expect(history.location.pathname).toBe(`/watch/${mockData.data[0].id}`);
     });
 });
