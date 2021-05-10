@@ -3,7 +3,10 @@ import {stringify} from "querystring";
 
 export class YoutubeService {
     baseUrl: string = 'https://www.googleapis.com/youtube/v3';
-    maxResults: number = 24;
+    videosUrl: string = `${this.baseUrl}/videos?`;
+    searchUrl = `${this.baseUrl}/search?`;
+    maxResultsPopular: number = 24;
+    maxResultsSearch: number = 5;
 
     constructor(private apiKey: string = '') {}
 
@@ -11,45 +14,44 @@ export class YoutubeService {
         this.apiKey = apiKey;
     }
 
-    search(searchPhrase: string, pageToken?: string) {
-        const params = { params:
-                                    {
-                                        q: searchPhrase,
-                                        pageToken,
-                                        part: 'snippet',
-                                        type: 'video',
-                                        maxResults: this.maxResults,
-                                        key: this.apiKey
-                                    }
-                        }
+    async search(searchPhrase: string, pageToken?: string) {
 
-        const url = `${this.baseUrl}/search`;
+        const params = stringify(
+            {
+                pageToken,
+                q: searchPhrase,
+                type: 'video',
+                maxResults: this.maxResultsSearch,
+                key: this.apiKey
+            });
 
-        return axios.get(url, params);
+
+        const search = await axios.get(this.searchUrl + params);
+
+        const idsList: string = search.data.items.map( (video: any) => video.id.videoId ).join(',');
+
+        return { data: await this.getVideos(idsList), nextPageToken: search.data.nextPageToken };
     }
 
-    async getPopular(regionCode: string, pageToken?: string) {
+    async getVideos(ids: string) {
+
         const params = stringify(
-                {
-                    pageToken,
-                    part: ['snippet','statistics'],
-                    chart: 'mostPopular',
-                    regionCode,
-                    maxResults: this.maxResults,
-                    key: this.apiKey
-                });
+            {
+                id: ids,
+                part: ['snippet','statistics'],
+                key: this.apiKey
+            });
 
-        const url = `${this.baseUrl}/videos?`;
+        const videos = await axios.get(this.videosUrl + params);
 
-        const popular = await axios.get(url+params);
-
-        return popular.data.items.map( (video: any) => (
+        return videos.data.items.map( (video: any) => (
             {
                 id: video.id,
                 title: video.snippet.title,
+                description: video.snippet.description,
                 channelTitle: video.snippet.channelTitle,
                 publishedAt: video.snippet.publishedAt,
-                thumbnail: video.snippet.thumbnails.medium,
+                thumbnail: video.snippet.thumbnails.high,
                 statistics: {
                     viewCount: video.statistics.viewCount,
                     likeCount: video.statistics.likeCount,
@@ -59,4 +61,35 @@ export class YoutubeService {
         ));
     }
 
+
+        async getPopular(regionCode: string, pageToken?: string) {
+        const params = stringify(
+                {
+                    pageToken,
+                    part: ['snippet','statistics'],
+                    chart: 'mostPopular',
+                    regionCode,
+                    maxResults: this.maxResultsPopular,
+                    key: this.apiKey
+                });
+
+        const popular = await axios.get(this.videosUrl + params);
+
+        return {
+            nextPageToken: popular.data.nextPageToken,
+            data: popular.data.items.map( (video: any) => (
+                    {
+                        id: video.id,
+                        title: video.snippet.title,
+                        channelTitle: video.snippet.channelTitle,
+                        publishedAt: video.snippet.publishedAt,
+                        thumbnail: video.snippet.thumbnails.medium,
+                        statistics: {
+                            viewCount: video.statistics.viewCount,
+                            likeCount: video.statistics.likeCount,
+                            dislikeCount: video.statistics.dislikeCount
+                        }
+                    }))
+            }
+        }
 }

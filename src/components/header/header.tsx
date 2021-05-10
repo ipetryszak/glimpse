@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux'
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 import Search from "../search";
 import UniversalSelect from "../universal-select";
@@ -16,7 +16,7 @@ import ApiKey from "../api-key";
 const NUMBER_OF_SEARCH_HISTORY_ENTRIES = 10;
 
 const Header: React.FC = () => {
-    let history = useHistory();
+    const history = useHistory();
 
     const dispatch = useDispatch();
 
@@ -41,7 +41,6 @@ const Header: React.FC = () => {
     }
 
     return (
-        <>
             <div className={styles.header}>
                 <h1 onClick={ () => history.push(`/`) }>glimpse</h1>
                 <div>
@@ -55,7 +54,6 @@ const Header: React.FC = () => {
                     </div>
                 }
             </div>
-        </>
     )
 };
 
