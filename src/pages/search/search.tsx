@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useLocation} from "react-router-dom";
 import { useInView } from 'react-intersection-observer';
 
-import {search, selectHeader} from "../../components/header/header.slice";
+import {search, selectHeader, setFromHomepage} from "../../components/header/header.slice";
 
 import SkeletonVideoTileBig from "../../skeletons/skeleton-video-tile-big";
 import VideoTileBig from "../../components/video-tile-big";
@@ -19,14 +19,16 @@ const Search: React.FC< SearchProps > = props => {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const { searchResult, loading } = useSelector(selectHeader);
+    const { searchResult, searchPhrase, selectedVideoPlatform, loading } = useSelector(selectHeader);
     const [ref, inView] = useInView();
 
     useEffect( () => {
         window.scrollTo(0, 0);
-        dispatch( search({ phrase: queryString.parse(location.search)['?q'] }));
+        const locationPhrase = queryString.parse(location.search)['?q'];
+        if(locationPhrase !== searchPhrase ||
+            searchResult.origin !== selectedVideoPlatform ) dispatch( search({ phrase: locationPhrase}));
         // eslint-disable-next-line
-    }, [location])
+    }, [location]);
 
     useEffect( () => {
         if(inView) dispatch(search(
@@ -35,8 +37,11 @@ const Search: React.FC< SearchProps > = props => {
                 nextPageToken: searchResult.nextPageToken,
             } ));
         // eslint-disable-next-line
-    }, [inView])
+    }, [inView]);
 
+    useEffect( () => {
+        dispatch(setFromHomepage(false));
+    })
 
     let NUMBER_OF_ELEMENTS = 5;
 

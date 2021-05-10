@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {stringify} from "querystring";
+import {VideoPlatforms} from "../app/video-platforms";
 
 export class YoutubeService {
     baseUrl: string = 'https://www.googleapis.com/youtube/v3';
@@ -30,7 +31,7 @@ export class YoutubeService {
 
         const idsList: string = search.data.items.map( (video: any) => video.id.videoId ).join(',');
 
-        return { data: await this.getVideos(idsList), nextPageToken: search.data.nextPageToken };
+        return { data: await this.getVideos(idsList), origin: VideoPlatforms.YouTube, nextPageToken: search.data.nextPageToken };
     }
 
     async getVideos(ids: string) {
@@ -38,7 +39,7 @@ export class YoutubeService {
         const params = stringify(
             {
                 id: ids,
-                part: ['snippet','statistics'],
+                part: ['snippet','statistics','player'],
                 key: this.apiKey
             });
 
@@ -48,6 +49,7 @@ export class YoutubeService {
             {
                 id: video.id,
                 title: video.snippet.title,
+                player: `https://www.youtube.com/embed/${video.id}`,
                 description: video.snippet.description,
                 channelTitle: video.snippet.channelTitle,
                 publishedAt: video.snippet.publishedAt,
@@ -66,7 +68,7 @@ export class YoutubeService {
         const params = stringify(
                 {
                     pageToken,
-                    part: ['snippet','statistics'],
+                    part: ['snippet','statistics', 'player'],
                     chart: 'mostPopular',
                     regionCode,
                     maxResults: this.maxResultsPopular,
@@ -81,6 +83,7 @@ export class YoutubeService {
                     {
                         id: video.id,
                         title: video.snippet.title,
+                        player: `https://www.youtube.com/embed/${video.id}`,
                         channelTitle: video.snippet.channelTitle,
                         publishedAt: video.snippet.publishedAt,
                         thumbnail: video.snippet.thumbnails.medium,

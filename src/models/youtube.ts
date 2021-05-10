@@ -4,6 +4,7 @@ export interface IVideo {
     description: string;
     channelTitle: string;
     publishedAt: string;
+    player: string;
     thumbnail: {
         height: number;
         width: number;

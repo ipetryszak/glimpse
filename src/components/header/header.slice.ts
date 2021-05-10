@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import {RootState} from "../../app/store";
-import { VideoPlatforms } from "../../app/video-platforms";
+import {VideoPlatforms} from "../../app/video-platforms";
 import {YoutubeService} from "../../api/youtube.service";
 import {VimeoService} from "../../api/vimeo.service";
 import {getKeysFromLS} from "../../app/utils";
@@ -15,12 +15,15 @@ interface IInitialState {
     loading: boolean;
     error: string;
     selectedVideoPlatform: VideoPlatforms;
+    searchPhrase: string;
+    fromHomepage: boolean;
     searchResult: {
-        nextPageToken: string,
+        origin: VideoPlatforms;
+        nextPageToken: string;
         data: IVideoExtended[]
     };
     popular: {
-        nextPageToken: string,
+        nextPageToken: string;
         data: IVideoExtended[]
     };
 }
@@ -29,7 +32,10 @@ const initialState: IInitialState = {
     loading: false,
     error: '',
     selectedVideoPlatform: VideoPlatforms.YouTube,
+    searchPhrase: '',
+    fromHomepage: true,
     searchResult: {
+        origin: VideoPlatforms.YouTube,
         nextPageToken: '',
         data: []
     },
@@ -48,6 +54,8 @@ export const search: any = createAsyncThunk('searchVideos',
     const state: any = getState();
     if(!data?.nextPageToken) dispatch( clearStore(getState()) );
 
+    dispatch(setSearchPhrase(data.phrase));
+
     return state.headerReducer.selectedVideoPlatform === VideoPlatforms.YouTube ?
         ytService.search(data.phrase, data?.nextPageToken) :
         vimeoService.search(data.phrase, data?.nextPageToken);
@@ -64,8 +72,15 @@ export const headerSlice = createSlice({
             clearStore: (state, action) => {
                 state.searchResult = {
                     nextPageToken: '',
+                    origin: VideoPlatforms.YouTube,
                     data: []
                 };
+            },
+            setSearchPhrase: (state, action) => {
+                state.searchPhrase = action.payload;
+            },
+            setFromHomepage: (state, action) => {
+                state.fromHomepage = action.payload;
             }
         },
         extraReducers: {
@@ -91,6 +106,7 @@ export const headerSlice = createSlice({
                 if(state.loading) state.loading = false;
                 state.searchResult = {
                     nextPageToken: action.payload.nextPageToken,
+                    origin: action.payload.origin,
                     data: [ ...state.searchResult.data, ...action.payload.data ]
                 }
             },
@@ -103,7 +119,7 @@ export const headerSlice = createSlice({
 
 );
 
-export const { setVideoPlatform, clearStore } = headerSlice.actions;
+export const { setVideoPlatform, clearStore, setSearchPhrase, setFromHomepage } = headerSlice.actions;
 
 export const selectHeader = (state: RootState) => state.headerReducer;
 

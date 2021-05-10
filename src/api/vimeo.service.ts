@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {stringify} from "querystring";
+import {VideoPlatforms} from "../app/video-platforms";
 
 export class VimeoService {
     baseUrl: string = 'https://api.vimeo.com/';
@@ -26,10 +27,12 @@ export class VimeoService {
 
         return {
             nextPageToken: page + 1,
+            origin: VideoPlatforms.Vimeo,
             data: search.data.data.map( (video: any) => (
                 {
-                    id: video.uri,
+                    id: video.uri.replace('/videos/',''),
                     title: video.name,
+                    player: `https://player.vimeo.com/video/${video.uri.replace('/videos/','')}`,
                     description: video.description || '',
                     channelTitle: video.user.name,
                     publishedAt: video.release_time,
