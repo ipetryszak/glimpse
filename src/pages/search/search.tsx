@@ -19,12 +19,14 @@ const Search: React.FC< SearchProps > = props => {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const { searchResult, loading } = useSelector(selectHeader);
+    const { searchResult, searchPhrase, selectedVideoPlatform, loading } = useSelector(selectHeader);
     const [ref, inView] = useInView();
 
     useEffect( () => {
         window.scrollTo(0, 0);
-        dispatch( search({ phrase: queryString.parse(location.search)['?q'] }));
+        const locationPhrase = queryString.parse(location.search)['?q'];
+        if(locationPhrase !== searchPhrase ||
+            searchResult.origin !== selectedVideoPlatform ) dispatch( search({ phrase: locationPhrase}));
         // eslint-disable-next-line
     }, [location]);
 

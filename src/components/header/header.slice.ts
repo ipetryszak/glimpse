@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import {RootState} from "../../app/store";
-import { VideoPlatforms } from "../../app/video-platforms";
+import {VideoPlatforms} from "../../app/video-platforms";
 import {YoutubeService} from "../../api/youtube.service";
 import {VimeoService} from "../../api/vimeo.service";
 import {getKeysFromLS} from "../../app/utils";
@@ -15,14 +15,15 @@ interface IInitialState {
     loading: boolean;
     error: string;
     selectedVideoPlatform: VideoPlatforms;
-    searchPhrase: string,
-    fromHomepage: boolean,
+    searchPhrase: string;
+    fromHomepage: boolean;
     searchResult: {
-        nextPageToken: string,
+        origin: VideoPlatforms;
+        nextPageToken: string;
         data: IVideoExtended[]
     };
     popular: {
-        nextPageToken: string,
+        nextPageToken: string;
         data: IVideoExtended[]
     };
 }
@@ -34,6 +35,7 @@ const initialState: IInitialState = {
     searchPhrase: '',
     fromHomepage: true,
     searchResult: {
+        origin: VideoPlatforms.YouTube,
         nextPageToken: '',
         data: []
     },
@@ -70,6 +72,7 @@ export const headerSlice = createSlice({
             clearStore: (state, action) => {
                 state.searchResult = {
                     nextPageToken: '',
+                    origin: VideoPlatforms.YouTube,
                     data: []
                 };
             },
@@ -103,6 +106,7 @@ export const headerSlice = createSlice({
                 if(state.loading) state.loading = false;
                 state.searchResult = {
                     nextPageToken: action.payload.nextPageToken,
+                    origin: action.payload.origin,
                     data: [ ...state.searchResult.data, ...action.payload.data ]
                 }
             },
