@@ -12,7 +12,7 @@ export class VimeoService {
         this.apiKey = apiKey;
     }
 
-    async search(searchPhrase: string, page?: number) {
+    async search(searchPhrase: string, page: number = 1) {
 
         const params = stringify(
             {
@@ -25,6 +25,29 @@ export class VimeoService {
         const search = await axios.get(this.searchUrl + params);
 
         console.log(search);
+
+        return {
+            nextPageToken: page+1,
+            data: search.data.data.map( (video: any) => (
+                {
+                    id: video.uri,
+                    title: video.name,
+                    description: video.description || '',
+                    channelTitle: video.user.name,
+                    publishedAt: video.release_time,
+                    thumbnail: {
+                        height: video.pictures.sizes[3].height,
+                        width: video.pictures.sizes[3].width,
+                        url: video.pictures.sizes[3].link
+                    },
+                    statistics: {
+                        viewCount: 0,
+                        likeCount: 0,
+                        dislikeCount: 0
+                    }
+                }
+            ))
+        };
     }
 
 }
