@@ -3,7 +3,6 @@ import '@testing-library/jest-dom';
 import { render, screen, fireEvent} from '@testing-library/react';
 import { createMemoryHistory } from "history";
 import { Router } from "react-router";
-import _ from "lodash";
 
 import VideoTileBig from './video-tile-big'
 
@@ -29,7 +28,7 @@ const mockData = {
         } ]
 };
 
-describe('VideoTile Component', () => {
+describe('VideoTileBig Component', () => {
 
     it('should render correctly', async () => {
         render(<VideoTileBig videoData={mockData.data[0]}/>);

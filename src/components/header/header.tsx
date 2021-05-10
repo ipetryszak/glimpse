@@ -41,7 +41,6 @@ const Header: React.FC = () => {
     }
 
     return (
-        <>
             <div className={styles.header}>
                 <h1 onClick={ () => history.push(`/`) }>glimpse</h1>
                 <div>
@@ -55,7 +54,6 @@ const Header: React.FC = () => {
                     </div>
                 }
             </div>
-        </>
     )
 };
 

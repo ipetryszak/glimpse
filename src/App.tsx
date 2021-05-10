@@ -10,7 +10,9 @@ export default function App() {
   return (
       <>
         <Router basename='/glimpse'>
-          <Header />
+          <div style={{position: "sticky", top: "0"}}>
+            <Header />
+          </div>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/search" component={Search}/>

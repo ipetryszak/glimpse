@@ -5,7 +5,7 @@ export class YoutubeService {
     baseUrl: string = 'https://www.googleapis.com/youtube/v3';
     videosUrl: string = `${this.baseUrl}/videos?`;
     searchUrl = `${this.baseUrl}/search?`;
-    maxResults: number = 24;
+    maxResultsPopular: number = 24;
     maxResultsSearch: number = 5;
 
     constructor(private apiKey: string = '') {}
@@ -69,13 +69,11 @@ export class YoutubeService {
                     part: ['snippet','statistics'],
                     chart: 'mostPopular',
                     regionCode,
-                    maxResults: this.maxResults,
+                    maxResults: this.maxResultsPopular,
                     key: this.apiKey
                 });
 
         const popular = await axios.get(this.videosUrl + params);
-
-        console.log(popular.data);
 
         return {
             nextPageToken: popular.data.nextPageToken,

@@ -4,8 +4,8 @@ import {createMemoryHistory} from "history";
 import {Router} from "react-router";
 import { Provider } from 'react-redux';
 
-import Home from './search'
 import {store} from "../../app/store";
+import Search from "./search";
 
 
 
@@ -15,7 +15,7 @@ test('should renders search component properly', () => {
     render(
         <Provider store={store}>
             <Router history={history}>
-                <Home />
+                <Search />
             </Router>
         </Provider>);
     const textElement = screen.getByLabelText(/search view/i);
