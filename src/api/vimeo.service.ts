@@ -24,12 +24,15 @@ export class VimeoService {
 
         const search = await axios.get(this.searchUrl + params);
 
+        console.log(search);
+
         return {
             nextPageToken: page + 1,
             data: search.data.data.map( (video: any) => (
                 {
-                    id: video.uri,
+                    id: video.uri.replace('/videos/',''),
                     title: video.name,
+                    player: video.embed.html,
                     description: video.description || '',
                     channelTitle: video.user.name,
                     publishedAt: video.release_time,

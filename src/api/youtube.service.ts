@@ -38,7 +38,7 @@ export class YoutubeService {
         const params = stringify(
             {
                 id: ids,
-                part: ['snippet','statistics'],
+                part: ['snippet','statistics','player'],
                 key: this.apiKey
             });
 
@@ -48,6 +48,7 @@ export class YoutubeService {
             {
                 id: video.id,
                 title: video.snippet.title,
+                player: video.player.embedHtml,
                 description: video.snippet.description,
                 channelTitle: video.snippet.channelTitle,
                 publishedAt: video.snippet.publishedAt,
@@ -66,7 +67,7 @@ export class YoutubeService {
         const params = stringify(
                 {
                     pageToken,
-                    part: ['snippet','statistics'],
+                    part: ['snippet','statistics', 'player'],
                     chart: 'mostPopular',
                     regionCode,
                     maxResults: this.maxResultsPopular,
@@ -81,6 +82,7 @@ export class YoutubeService {
                     {
                         id: video.id,
                         title: video.snippet.title,
+                        player: video.player.embedHtml,
                         channelTitle: video.snippet.channelTitle,
                         publishedAt: video.snippet.publishedAt,
                         thumbnail: video.snippet.thumbnails.medium,

@@ -5,6 +5,7 @@ import './App.css';
 import Home from "./pages/home";
 import Header from "./components/header";
 import Search from "./pages/search";
+import Watch from "./pages/watch";
 
 export default function App() {
   return (
@@ -16,9 +17,7 @@ export default function App() {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/search" component={Search}/>
-            <Route path="/watch/:id">
-              <Watch />
-            </Route>
+            <Route path="/watch/:id" component={Watch}/>
             <Route path="*">
               <NoMatch />
             </Route>
@@ -26,11 +25,6 @@ export default function App() {
         </Router>
       </>
   );
-}
-
-
-function Watch() {
-  return <h2>Watch</h2>;
 }
 
 function NoMatch() {

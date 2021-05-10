@@ -93,6 +93,8 @@ export const headerSlice = createSlice({
                     nextPageToken: action.payload.nextPageToken,
                     data: [ ...state.searchResult.data, ...action.payload.data ]
                 }
+
+                console.log(state.searchResult)
             },
             [search.rejected]: (state, action) => {
                 if (state.loading) state.loading = false;
