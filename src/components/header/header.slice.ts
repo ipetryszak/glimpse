@@ -68,7 +68,6 @@ export const headerSlice = createSlice({
             },
             [search.fulfilled]: (state, action) => {
                 if(state.loading) state.loading = false;
-                console.log(action)
                 state.searchResult = [...state.searchResult, ...action.payload.data];
                 state.nextPageToken = action.payload.nextPageToken;
             },

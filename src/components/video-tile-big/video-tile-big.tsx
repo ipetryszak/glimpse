@@ -27,7 +27,7 @@ const VideoTileBig: React.FC< VideoTileBigProps > = ({videoData}) => {
                  alt={videoData?.title}
                  onLoad={() => setLoaded(true)}/>
 
-            { !loaded && <Rectangle aria-label="video placeholder" height={300} width={400} /> }
+            { !loaded && <Rectangle aria-label="video placeholder" height={225} width={300} /> }
 
             <div>
                 <h1 aria-label="title">{videoData?.title}</h1>

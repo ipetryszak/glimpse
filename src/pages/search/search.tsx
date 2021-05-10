@@ -19,16 +19,15 @@ const Search: React.FC< SearchProps > = props => {
     const dispatch = useDispatch();
     const location = useLocation();
 
+    const { searchResult, nextPageToken, loading } = useSelector(selectHeader);
     const [ref, inView] = useInView();
-
 
     useEffect( () => {
         dispatch( search({ phrase: queryString.parse(location.search)['?q'] }));
     }, [location])
 
     useEffect( () => {
-        console.log(inView);
-        dispatch( search(
+        if(inView) dispatch(search(
             {
                 phrase: queryString.parse(location.search)['?q'],
                 nextPageToken: nextPageToken,
@@ -38,21 +37,18 @@ const Search: React.FC< SearchProps > = props => {
 
     let NUMBER_OF_ELEMENTS = 5;
 
-    const { searchResult, nextPageToken, loading } = useSelector(selectHeader);
-
      return (
         <main className={styles.container}>
-            {
-                loading ? [...Array(NUMBER_OF_ELEMENTS)].map( (el, idx) => (
-                        <div key={idx}>
-                            <SkeletonVideoTileBig/>
-                        </div>)
-                    ) : (
-                    searchResult.map((el: IVideoExtended, idx: number) => (
-                        <div key={idx} ref={ searchResult.length - 1 === idx ? ref : null}>
-                            <VideoTileBig videoData={el}/>
-                        </div>
-                    ))
+            { searchResult.map((el: IVideoExtended, idx: number) => (
+                    <div key={idx} ref={ searchResult.length - 1 === idx ? ref : null}>
+                        <VideoTileBig videoData={el}/>
+                    </div>
+                ))
+            }
+            { loading && [...Array(NUMBER_OF_ELEMENTS)].map((el, idx) => (
+                    <div key={idx}>
+                        <SkeletonVideoTileBig/>
+                    </div>)
                 )
             }
         </main>
