@@ -4,18 +4,25 @@ import Rectangle from "./rectangle";
 
 export interface SkeletonVideoTileBigProps {}
 
+const style = {
+    margin: ".5rem 0",
+    padding: "0"
+}
+
 const SkeletonVideoTileBig: React.FC< SkeletonVideoTileBigProps > = () => {
     return (
         <div className={styles.container}>
-            <Rectangle height={225} width={300} />
-            <div style={{ marginLeft: '2rem' }}>
-                <h1>
-                    <Rectangle height={40} width={500} />
-                </h1>
-                <h1>
-                    <Rectangle height={30} width={400} />
-                </h1>
-            </div>
+                <div>
+                    <Rectangle height={225} width={300} />
+                </div>
+                <div>
+                    <div style={style}>
+                        <Rectangle height={40} width={500} />
+                    </div>
+                    <div style={style}>
+                        <Rectangle height={30} width={400} />
+                    </div>
+                </div>
         </div>
     )
 };

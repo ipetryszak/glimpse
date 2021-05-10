@@ -23,6 +23,7 @@ const Search: React.FC< SearchProps > = props => {
     const [ref, inView] = useInView();
 
     useEffect( () => {
+        window.scrollTo(0, 0);
         dispatch( search({ phrase: queryString.parse(location.search)['?q'] }));
         // eslint-disable-next-line
     }, [location])

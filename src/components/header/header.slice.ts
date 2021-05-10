@@ -3,11 +3,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {RootState} from "../../app/store";
 import { VideoPlatforms } from "../../app/video-platforms";
 import {YoutubeService} from "../../api/youtube.service";
+import {VimeoService} from "../../api/vimeo.service";
 import {getKeysFromLS} from "../../app/utils";
 import {IVideoExtended} from "../../models/youtube";
 
 
 const ytService = new YoutubeService( getKeysFromLS().YouTube );
+const vimeoService = new VimeoService( getKeysFromLS().Vimeo );
 
 interface IInitialState {
     loading: boolean;
@@ -43,8 +45,12 @@ export const fetchPopular: any = createAsyncThunk('fetchPopularVideos', async ()
 
 export const search: any = createAsyncThunk('searchVideos',
     async (data: any, {dispatch, getState}) => {
+    const state: any = getState();
     if(!data?.nextPageToken) dispatch( clearStore(getState()) );
-    return ytService.search(data.phrase, data?.nextPageToken);
+
+    return state.headerReducer.selectedVideoPlatform === VideoPlatforms.YouTube ?
+        ytService.search(data.phrase, data?.nextPageToken) :
+        vimeoService.search(data.phrase, data?.nextPageToken);
 });
 
 
