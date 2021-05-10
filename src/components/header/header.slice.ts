@@ -15,6 +15,8 @@ interface IInitialState {
     loading: boolean;
     error: string;
     selectedVideoPlatform: VideoPlatforms;
+    searchPhrase: string,
+    fromHomepage: boolean,
     searchResult: {
         nextPageToken: string,
         data: IVideoExtended[]
@@ -29,6 +31,8 @@ const initialState: IInitialState = {
     loading: false,
     error: '',
     selectedVideoPlatform: VideoPlatforms.YouTube,
+    searchPhrase: '',
+    fromHomepage: true,
     searchResult: {
         nextPageToken: '',
         data: []
@@ -48,6 +52,8 @@ export const search: any = createAsyncThunk('searchVideos',
     const state: any = getState();
     if(!data?.nextPageToken) dispatch( clearStore(getState()) );
 
+    dispatch(setSearchPhrase(data.phrase));
+
     return state.headerReducer.selectedVideoPlatform === VideoPlatforms.YouTube ?
         ytService.search(data.phrase, data?.nextPageToken) :
         vimeoService.search(data.phrase, data?.nextPageToken);
@@ -66,6 +72,12 @@ export const headerSlice = createSlice({
                     nextPageToken: '',
                     data: []
                 };
+            },
+            setSearchPhrase: (state, action) => {
+                state.searchPhrase = action.payload;
+            },
+            setFromHomepage: (state, action) => {
+                state.fromHomepage = action.payload;
             }
         },
         extraReducers: {
@@ -93,8 +105,6 @@ export const headerSlice = createSlice({
                     nextPageToken: action.payload.nextPageToken,
                     data: [ ...state.searchResult.data, ...action.payload.data ]
                 }
-
-                console.log(state.searchResult)
             },
             [search.rejected]: (state, action) => {
                 if (state.loading) state.loading = false;
@@ -105,7 +115,7 @@ export const headerSlice = createSlice({
 
 );
 
-export const { setVideoPlatform, clearStore } = headerSlice.actions;
+export const { setVideoPlatform, clearStore, setSearchPhrase, setFromHomepage } = headerSlice.actions;
 
 export const selectHeader = (state: RootState) => state.headerReducer;
 

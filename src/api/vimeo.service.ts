@@ -32,7 +32,7 @@ export class VimeoService {
                 {
                     id: video.uri.replace('/videos/',''),
                     title: video.name,
-                    player: video.embed.html,
+                    player: `https://player.vimeo.com/video/${video.uri.replace('/videos/','')}`,
                     description: video.description || '',
                     channelTitle: video.user.name,
                     publishedAt: video.release_time,

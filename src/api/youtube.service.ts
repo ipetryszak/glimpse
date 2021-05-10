@@ -48,7 +48,7 @@ export class YoutubeService {
             {
                 id: video.id,
                 title: video.snippet.title,
-                player: video.player.embedHtml,
+                player: `https://www.youtube.com/embed/${video.id}`,
                 description: video.snippet.description,
                 channelTitle: video.snippet.channelTitle,
                 publishedAt: video.snippet.publishedAt,
@@ -82,7 +82,7 @@ export class YoutubeService {
                     {
                         id: video.id,
                         title: video.snippet.title,
-                        player: video.player.embedHtml,
+                        player: `https://www.youtube.com/embed/${video.id}`,
                         channelTitle: video.snippet.channelTitle,
                         publishedAt: video.snippet.publishedAt,
                         thumbnail: video.snippet.thumbnails.medium,
