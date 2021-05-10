@@ -24,6 +24,7 @@ const Search: React.FC< SearchProps > = props => {
 
     useEffect( () => {
         dispatch( search({ phrase: queryString.parse(location.search)['?q'] }));
+        // eslint-disable-next-line
     }, [location])
 
     useEffect( () => {
@@ -32,6 +33,7 @@ const Search: React.FC< SearchProps > = props => {
                 phrase: queryString.parse(location.search)['?q'],
                 nextPageToken: searchResult.nextPageToken,
             } ));
+        // eslint-disable-next-line
     }, [inView])
 
 
