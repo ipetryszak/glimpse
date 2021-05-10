@@ -13,18 +13,28 @@ interface IInitialState {
     loading: boolean;
     error: string;
     selectedVideoPlatform: VideoPlatforms;
-    searchResult: IVideoExtended[];
-    popular: IVideoExtended[];
-    nextPageToken: string;
+    searchResult: {
+        nextPageToken: string,
+        data: IVideoExtended[]
+    };
+    popular: {
+        nextPageToken: string,
+        data: IVideoExtended[]
+    };
 }
 
 const initialState: IInitialState = {
     loading: false,
     error: '',
     selectedVideoPlatform: VideoPlatforms.YouTube,
-    searchResult: [],
-    popular: [],
-    nextPageToken: '',
+    searchResult: {
+        nextPageToken: '',
+        data: []
+    },
+    popular: {
+        nextPageToken: '',
+        data: []
+    },
 };
 
 export const fetchPopular: any = createAsyncThunk('fetchPopularVideos', async () => {
@@ -46,8 +56,10 @@ export const headerSlice = createSlice({
                 state.selectedVideoPlatform = action.payload;
             },
             clearStore: (state, action) => {
-                state.searchResult = [];
-                state.nextPageToken = '';
+                state.searchResult = {
+                    nextPageToken: '',
+                    data: []
+                };
             }
         },
         extraReducers: {
@@ -56,7 +68,10 @@ export const headerSlice = createSlice({
             },
             [fetchPopular.fulfilled]: (state, action) => {
                 if(state.loading) state.loading = false;
-                state.popular = [...action.payload];
+                state.popular = {
+                    nextPageToken: action.payload.nextPageToken,
+                    data: [ ...state.searchResult.data, ...action.payload.data ]
+                }
             },
             [fetchPopular.rejected]: (state, action) => {
                 if (state.loading) state.loading = false;
@@ -68,8 +83,10 @@ export const headerSlice = createSlice({
             },
             [search.fulfilled]: (state, action) => {
                 if(state.loading) state.loading = false;
-                state.searchResult = [...state.searchResult, ...action.payload.data];
-                state.nextPageToken = action.payload.nextPageToken;
+                state.searchResult = {
+                    nextPageToken: action.payload.nextPageToken,
+                    data: [ ...state.searchResult.data, ...action.payload.data ]
+                }
             },
             [search.rejected]: (state, action) => {
                 if (state.loading) state.loading = false;

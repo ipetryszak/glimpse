@@ -26,7 +26,7 @@ const Home: React.FC< HomeProps > = props => {
                             <SkeletonVideoTile/>
                         </div>))
                         :
-                        popular.map((el: IVideoExtended, idx: number) => (
+                        popular.data.map((el: IVideoExtended, idx: number) => (
                                 <div key={idx}>
                                     <VideoTile videoData={el}/>
                                 </div>

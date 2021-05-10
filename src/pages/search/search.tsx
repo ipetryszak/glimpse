@@ -19,7 +19,7 @@ const Search: React.FC< SearchProps > = props => {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const { searchResult, nextPageToken, loading } = useSelector(selectHeader);
+    const { searchResult, loading } = useSelector(selectHeader);
     const [ref, inView] = useInView();
 
     useEffect( () => {
@@ -30,7 +30,7 @@ const Search: React.FC< SearchProps > = props => {
         if(inView) dispatch(search(
             {
                 phrase: queryString.parse(location.search)['?q'],
-                nextPageToken: nextPageToken,
+                nextPageToken: searchResult.nextPageToken,
             } ));
     }, [inView])
 
@@ -39,8 +39,8 @@ const Search: React.FC< SearchProps > = props => {
 
      return (
         <main className={styles.container}>
-            { searchResult.map((el: IVideoExtended, idx: number) => (
-                    <div key={idx} ref={ searchResult.length - 1 === idx ? ref : null}>
+            { searchResult.data.map((el: IVideoExtended, idx: number) => (
+                    <div key={idx} ref={ searchResult.data.length - 1 === idx ? ref : null}>
                         <VideoTileBig videoData={el}/>
                     </div>
                 ))

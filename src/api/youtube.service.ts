@@ -74,20 +74,23 @@ export class YoutubeService {
 
         const popular = await axios.get(this.videosUrl + params);
 
-        return popular.data.items.map( (video: any) => (
-            {
-                id: video.id,
-                title: video.snippet.title,
-                channelTitle: video.snippet.channelTitle,
-                publishedAt: video.snippet.publishedAt,
-                thumbnail: video.snippet.thumbnails.medium,
-                statistics: {
-                    viewCount: video.statistics.viewCount,
-                    likeCount: video.statistics.likeCount,
-                    dislikeCount: video.statistics.dislikeCount
-                }
-            }
-        ));
-    }
+        console.log(popular.data);
 
+        return {
+            nextPageToken: popular.data.nextPageToken,
+            data: popular.data.items.map( (video: any) => (
+                    {
+                        id: video.id,
+                        title: video.snippet.title,
+                        channelTitle: video.snippet.channelTitle,
+                        publishedAt: video.snippet.publishedAt,
+                        thumbnail: video.snippet.thumbnails.medium,
+                        statistics: {
+                            viewCount: video.statistics.viewCount,
+                            likeCount: video.statistics.likeCount,
+                            dislikeCount: video.statistics.dislikeCount
+                        }
+                    }))
+            }
+        }
 }
