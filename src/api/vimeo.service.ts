@@ -25,8 +25,6 @@ export class VimeoService {
 
         const search = await axios.get(this.searchUrl + params);
 
-        console.log(search);
-
         return {
             nextPageToken: page + 1,
             origin: VideoPlatforms.Vimeo,
