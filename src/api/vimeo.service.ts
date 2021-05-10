@@ -24,10 +24,8 @@ export class VimeoService {
 
         const search = await axios.get(this.searchUrl + params);
 
-        console.log(search);
-
         return {
-            nextPageToken: page+1,
+            nextPageToken: page + 1,
             data: search.data.data.map( (video: any) => (
                 {
                     id: video.uri,
