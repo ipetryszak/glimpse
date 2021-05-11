@@ -33,3 +33,34 @@
   width: 300px;
   height: 225px;
 }
+
+@media all and (max-width: 780px) {
+
+  .container {
+    flex-direction: column;
+    margin: .5rem 2rem;
+    max-width: 90vw;
+
+    div {
+      margin: .4rem 0;
+
+      h1 {
+        max-width: 300px;
+        text-align: center;
+      }
+
+      p {
+        overflow: hidden;
+        max-width: 300px;
+      }
+
+      p:first-of-type {
+        text-align: center;
+      }
+
+    }
+  }
+
+
+
+}

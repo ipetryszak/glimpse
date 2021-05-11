@@ -27,7 +27,7 @@ const Search: React.FC< SearchProps > = props => {
         const locationPhrase = queryString.parse(location.search)['?q'];
         if(locationPhrase !== searchPhrase ||
             searchResult.origin !== selectedVideoPlatform ) dispatch( search({ phrase: locationPhrase}));
-        // eslint-disable-next-line
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
 
     useEffect( () => {
@@ -36,7 +36,7 @@ const Search: React.FC< SearchProps > = props => {
                 phrase: queryString.parse(location.search)['?q'],
                 nextPageToken: searchResult.nextPageToken,
             } ));
-        // eslint-disable-next-line
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inView]);
 
     useEffect( () => {
