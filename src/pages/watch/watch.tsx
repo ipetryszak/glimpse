@@ -31,7 +31,7 @@ const Watch: React.FC< WatchProps > = props => {
         }
 
         setIndex( index );
-        // eslint-disable-next-line
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[id]);
 
     return (
