@@ -1,7 +1,8 @@
 import axios from 'axios';
 import {stringify} from "querystring";
 import {VideoPlatforms} from "../app/video-platforms";
-import {Chart} from "../models/youtube";
+import {Chart} from "../models/videos";
+import { IYouTube } from "../models/youtubeApi";
 
 interface Params {
     id?: string,
@@ -59,8 +60,8 @@ export class YoutubeService {
         const paramsStringified = stringify(params);
 
         const videos = await axios.get(this.videosUrl + paramsStringified );
-
-        const data = videos.data.items.map( (video: any) => (
+        console.log(videos);
+        const data = videos.data.items.map( (video: IYouTube) => (
             {
                 id: video.id,
                 title: video.snippet.title,

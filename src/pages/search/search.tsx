@@ -8,7 +8,7 @@ import { useInView } from 'react-intersection-observer';
 import {search, selectHeader, setFromHomepage} from "../../components/header/header.slice";
 import SkeletonVideoTileBig from "../../skeletons/skeleton-video-tile-big";
 import VideoTileBig from "../../components/video-tile-big";
-import {IVideoExtended} from "../../models/youtube";
+import {IVideoExtended} from "../../models/videos";
 import {MAX_RESULTS_SEARCH} from "../../app/consts";
 
 import styles from './search.module.scss'

@@ -5,7 +5,7 @@ import {setFromHomepage, selectHeader} from "../../components/header/header.slic
 
 import VideoTile from "../../components/video-tile";
 import SkeletonVideoTile from "../../skeletons/skeleton-video-tile";
-import {IVideoExtended} from "../../models/youtube";
+import {IVideoExtended} from "../../models/videos";
 import {MAX_RESULTS_POPULAR} from "../../app/consts";
 
 import styles from './home.module.scss'

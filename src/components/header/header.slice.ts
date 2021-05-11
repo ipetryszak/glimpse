@@ -5,13 +5,13 @@ import {VideoPlatforms} from "../../app/video-platforms";
 import {YoutubeService} from "../../api/youtube.service";
 import {VimeoService} from "../../api/vimeo.service";
 import {getKeysFromLS} from "../../app/utils";
-import {IVideosResults} from "../../models/youtube";
+import {IVideosResults} from "../../models/videos";
 import {MAX_RESULTS_POPULAR, MAX_RESULTS_SEARCH} from "../../app/consts";
 
 const ytService = new YoutubeService( getKeysFromLS().YouTube );
 const vimeoService = new VimeoService( getKeysFromLS().Vimeo );
 
-interface IInitialState {
+interface IHeaderState {
     loading: boolean;
     error: string;
     selectedVideoPlatform: VideoPlatforms;
@@ -21,7 +21,7 @@ interface IInitialState {
     popular: IVideosResults;
 }
 
-const initialState: IInitialState = {
+const initialState: IHeaderState = {
     loading: false,
     error: '',
     selectedVideoPlatform: VideoPlatforms.YouTube,
