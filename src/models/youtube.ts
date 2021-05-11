@@ -1,18 +1,18 @@
-export interface IVideo {
+export type Chart = 'chartUnspecified' | 'mostPopular' | '';
+
+export interface IVideoExtended {
     id: string;
     title: string;
     description: string;
     channelTitle: string;
     publishedAt: string;
     player: string;
+    chart?: Chart;
     thumbnail: {
         height: number;
         width: number;
         url: string;
     }
-}
-
-export interface IVideoExtended extends IVideo{
     statistics: {
         viewCount: number,
         likeCount: number,

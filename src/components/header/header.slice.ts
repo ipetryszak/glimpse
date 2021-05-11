@@ -6,7 +6,7 @@ import {YoutubeService} from "../../api/youtube.service";
 import {VimeoService} from "../../api/vimeo.service";
 import {getKeysFromLS} from "../../app/utils";
 import {IVideoExtended} from "../../models/youtube";
-
+import {MAX_RESULTS_POPULAR, MAX_RESULTS_SEARCH} from "../../app/consts";
 
 const ytService = new YoutubeService( getKeysFromLS().YouTube );
 const vimeoService = new VimeoService( getKeysFromLS().Vimeo );
@@ -46,7 +46,7 @@ const initialState: IInitialState = {
 };
 
 export const fetchPopular: any = createAsyncThunk('fetchPopularVideos', async () => {
-    return ytService.getPopular('PL');
+    return ytService.getVideos(MAX_RESULTS_POPULAR,'mostPopular');
 });
 
 export const search: any = createAsyncThunk('searchVideos',
@@ -57,7 +57,7 @@ export const search: any = createAsyncThunk('searchVideos',
     dispatch(setSearchPhrase(data.phrase));
 
     return state.headerReducer.selectedVideoPlatform === VideoPlatforms.YouTube ?
-        ytService.search(data.phrase, data?.nextPageToken) :
+        ytService.search(MAX_RESULTS_SEARCH, data.phrase, data?.nextPageToken) :
         vimeoService.search(data.phrase, data?.nextPageToken);
 });
 

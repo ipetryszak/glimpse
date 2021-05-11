@@ -1,13 +1,20 @@
 import axios from 'axios';
 import {stringify} from "querystring";
 import {VideoPlatforms} from "../app/video-platforms";
+import {Chart} from "../models/youtube";
+
+interface Params {
+    id?: string,
+    maxResults: number,
+    chart: Chart,
+    part: string[],
+    key: string
+}
 
 export class YoutubeService {
     baseUrl: string = 'https://www.googleapis.com/youtube/v3';
     videosUrl: string = `${this.baseUrl}/videos?`;
     searchUrl = `${this.baseUrl}/search?`;
-    maxResultsPopular: number = 24;
-    maxResultsSearch: number = 5;
 
     constructor(private apiKey: string = '') {}
 
@@ -15,14 +22,14 @@ export class YoutubeService {
         this.apiKey = apiKey;
     }
 
-    async search(searchPhrase: string, pageToken?: string) {
+    async search(maxResults: number, searchPhrase: string, pageToken?: string) {
 
         const params = stringify(
             {
                 pageToken,
                 q: searchPhrase,
                 type: 'video',
-                maxResults: this.maxResultsSearch,
+                maxResults: maxResults,
                 key: this.apiKey
             });
 
@@ -30,22 +37,30 @@ export class YoutubeService {
         const search = await axios.get(this.searchUrl + params);
 
         const idsList: string = search.data.items.map( (video: any) => video.id.videoId ).join(',');
+        const res = await this.getVideos( maxResults,'', idsList);
 
-        return { data: await this.getVideos(idsList), origin: VideoPlatforms.YouTube, nextPageToken: search.data.nextPageToken };
+        return {
+            ...res,
+            nextPageToken: search.data.nextPageToken
+        };
     }
 
-    async getVideos(ids: string) {
+    async getVideos(maxResults: number, chart: Chart, ids?: string) {
 
-        const params = stringify(
-            {
-                id: ids,
-                part: ['snippet','statistics','player'],
-                key: this.apiKey
-            });
+        const params: Params | any  = {
+            maxResults: maxResults,
+            part: ['snippet','statistics'],
+            key: this.apiKey,
+        }
 
-        const videos = await axios.get(this.videosUrl + params);
+        if(ids) params.id = ids;
+        if(chart) params.chart = chart;
 
-        return videos.data.items.map( (video: any) => (
+        const paramsStringified = stringify(params);
+
+        const videos = await axios.get(this.videosUrl + paramsStringified );
+
+        const data = videos.data.items.map( (video: any) => (
             {
                 id: video.id,
                 title: video.snippet.title,
@@ -53,46 +68,14 @@ export class YoutubeService {
                 description: video.snippet.description,
                 channelTitle: video.snippet.channelTitle,
                 publishedAt: video.snippet.publishedAt,
-                thumbnail: video.snippet.thumbnails.high,
+                thumbnail: video.snippet.thumbnails.medium,
                 statistics: {
                     viewCount: video.statistics.viewCount,
                     likeCount: video.statistics.likeCount,
                     dislikeCount: video.statistics.dislikeCount
                 }
-            }
-        ));
+            }));
+
+        return { data, origin: VideoPlatforms.YouTube, nextPageToken: videos.data.nextPageToken };
     }
-
-
-        async getPopular(regionCode: string, pageToken?: string) {
-        const params = stringify(
-                {
-                    pageToken,
-                    part: ['snippet','statistics', 'player'],
-                    chart: 'mostPopular',
-                    regionCode,
-                    maxResults: this.maxResultsPopular,
-                    key: this.apiKey
-                });
-
-        const popular = await axios.get(this.videosUrl + params);
-
-        return {
-            nextPageToken: popular.data.nextPageToken,
-            data: popular.data.items.map( (video: any) => (
-                    {
-                        id: video.id,
-                        title: video.snippet.title,
-                        player: `https://www.youtube.com/embed/${video.id}`,
-                        channelTitle: video.snippet.channelTitle,
-                        publishedAt: video.snippet.publishedAt,
-                        thumbnail: video.snippet.thumbnails.medium,
-                        statistics: {
-                            viewCount: video.statistics.viewCount,
-                            likeCount: video.statistics.likeCount,
-                            dislikeCount: video.statistics.dislikeCount
-                        }
-                    }))
-            }
-        }
 }
