@@ -5,7 +5,7 @@ import {VideoPlatforms} from "../../app/video-platforms";
 import {YoutubeService} from "../../api/youtube.service";
 import {VimeoService} from "../../api/vimeo.service";
 import {getKeysFromLS} from "../../app/utils";
-import {IVideoExtended} from "../../models/youtube";
+import {IVideosResults} from "../../models/youtube";
 import {MAX_RESULTS_POPULAR, MAX_RESULTS_SEARCH} from "../../app/consts";
 
 const ytService = new YoutubeService( getKeysFromLS().YouTube );
@@ -17,15 +17,8 @@ interface IInitialState {
     selectedVideoPlatform: VideoPlatforms;
     searchPhrase: string;
     fromHomepage: boolean;
-    searchResult: {
-        origin: VideoPlatforms;
-        nextPageToken: string;
-        data: IVideoExtended[]
-    };
-    popular: {
-        nextPageToken: string;
-        data: IVideoExtended[]
-    };
+    searchResult: IVideosResults;
+    popular: IVideosResults;
 }
 
 const initialState: IInitialState = {
@@ -40,6 +33,7 @@ const initialState: IInitialState = {
         data: []
     },
     popular: {
+        origin: VideoPlatforms.YouTube,
         nextPageToken: '',
         data: []
     },
@@ -91,6 +85,7 @@ export const headerSlice = createSlice({
                 if(state.loading) state.loading = false;
                 state.popular = {
                     nextPageToken: action.payload.nextPageToken,
+                    origin: VideoPlatforms.YouTube,
                     data: [ ...state.searchResult.data, ...action.payload.data ]
                 }
             },

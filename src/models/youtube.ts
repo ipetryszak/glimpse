@@ -1,3 +1,11 @@
+import {VideoPlatforms} from "../app/video-platforms";
+
+export interface IVideosResults {
+    origin: VideoPlatforms;
+    nextPageToken: string;
+    data: IVideoExtended[];
+}
+
 export type Chart = 'chartUnspecified' | 'mostPopular' | '';
 
 export interface IVideoExtended {
