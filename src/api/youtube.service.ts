@@ -33,8 +33,7 @@ export class YoutubeService {
                 maxResults: maxResults,
                 key: this.apiKey
             });
-
-
+        
         const search = await axios.get(this.searchUrl + params);
 
         const idsList: string = search.data.items.map( (video: any) => video.id.videoId ).join(',');
@@ -60,7 +59,7 @@ export class YoutubeService {
         const paramsStringified = stringify(params);
 
         const videos = await axios.get(this.videosUrl + paramsStringified );
-        console.log(videos);
+
         const data = videos.data.items.map( (video: IYouTube) => (
             {
                 id: video.id,
