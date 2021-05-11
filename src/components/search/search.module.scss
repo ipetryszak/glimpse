@@ -5,6 +5,7 @@
   height: 2.5rem;
   border: none;
   outline: none;
+  cursor: pointer;
 }
 
 form {
@@ -35,12 +36,21 @@ form {
   @include button;
   right: 3rem;
   background: url('img/cancel.svg') no-repeat;
+
+  &:hover {
+    background: url('img/cancel_hover.svg') no-repeat;
+  }
 }
 
 .buttonSearch {
   @include button;
   right: .5rem;
   background: url('img/search.svg') no-repeat;
+
+  &:hover {
+    background: url('img/search_hover.svg') no-repeat;
+  }
+
 }
 
 @media all and (max-width: 780px) {

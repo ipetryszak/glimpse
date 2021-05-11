@@ -32,15 +32,15 @@ const VideoTileBig: React.FC< VideoTileBigProps > = ({videoData}) => {
 
             <div>
                 <h1 aria-label="title">{videoData?.title}</h1>
-
                 <p aria-label="views and channel">
-                     { videoData?.statistics?.viewCount > 1000000 ?
-                        `${(Math.round(videoData?.statistics?.viewCount / 100000)/10)}M views`
-                        : videoData?.statistics?.viewCount > 999 ?
-                            (`${(Math.round(videoData?.statistics?.viewCount / 100)/10)}k views`) :
-                            (`${videoData?.statistics?.viewCount} views`)}
-
-                    {`  •  ${videoData?.channelTitle}`}
+                    { !!videoData?.statistics?.viewCount && (
+                        videoData?.statistics?.viewCount > 1000000 ?
+                            `${(Math.round(videoData?.statistics?.viewCount / 100000)/10)}M views   •  `
+                            : videoData?.statistics?.viewCount > 999 ?
+                            (`${(Math.round(videoData?.statistics?.viewCount / 100)/10)}k views  •  `) :
+                            (`${videoData?.statistics?.viewCount} views  •  `)
+                    )}
+                    {`${videoData?.channelTitle}`}
                 </p>
 
                 <p>{videoData?.description && videoData?.description.substring(0,DESC_CHAR_LIMIT)+' ...'}</p>

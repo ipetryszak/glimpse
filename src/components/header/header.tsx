@@ -47,7 +47,10 @@ const Header: React.FC = () => {
                     <UniversalSelect options={ Object.values(VideoPlatforms) } onSelect={ handleSelect } />
                     <Search onSubmit={handleSubmit} history={searchHistory} limitHistory={NUMBER_OF_SEARCH_HISTORY_ENTRIES}/>
                 </div>
-                <button onClick={ () => setIsApiBox(!isApiBox)}/>
+                <button onClick={ () => {
+                    if(isApiBox) window.location.reload();
+                    setIsApiBox(!isApiBox);
+                }}/>
                 { isApiBox &&
                     <div className={styles.apiComponent}>
                         <ApiKey/>

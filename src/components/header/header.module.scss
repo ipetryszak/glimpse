@@ -59,6 +59,10 @@ $background-color: #FFFFFF;
     cursor: pointer;
     height: 26px;
     width: 26px;
+
+    &:hover {
+      background: url('img/settings_hover.svg') no-repeat;
+    }
   }
 }
 
