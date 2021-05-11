@@ -5,30 +5,23 @@ import {VideoPlatforms} from "../../app/video-platforms";
 import {YoutubeService} from "../../api/youtube.service";
 import {VimeoService} from "../../api/vimeo.service";
 import {getKeysFromLS} from "../../app/utils";
-import {IVideoExtended} from "../../models/youtube";
-
+import {IVideosResults} from "../../models/videos";
+import {MAX_RESULTS_POPULAR, MAX_RESULTS_SEARCH} from "../../app/consts";
 
 const ytService = new YoutubeService( getKeysFromLS().YouTube );
 const vimeoService = new VimeoService( getKeysFromLS().Vimeo );
 
-interface IInitialState {
+interface IHeaderState {
     loading: boolean;
     error: string;
     selectedVideoPlatform: VideoPlatforms;
     searchPhrase: string;
     fromHomepage: boolean;
-    searchResult: {
-        origin: VideoPlatforms;
-        nextPageToken: string;
-        data: IVideoExtended[]
-    };
-    popular: {
-        nextPageToken: string;
-        data: IVideoExtended[]
-    };
+    searchResult: IVideosResults;
+    popular: IVideosResults;
 }
 
-const initialState: IInitialState = {
+const initialState: IHeaderState = {
     loading: false,
     error: '',
     selectedVideoPlatform: VideoPlatforms.YouTube,
@@ -40,13 +33,14 @@ const initialState: IInitialState = {
         data: []
     },
     popular: {
+        origin: VideoPlatforms.YouTube,
         nextPageToken: '',
         data: []
     },
 };
 
 export const fetchPopular: any = createAsyncThunk('fetchPopularVideos', async () => {
-    return ytService.getPopular('PL');
+    return ytService.getVideos(MAX_RESULTS_POPULAR,'mostPopular');
 });
 
 export const search: any = createAsyncThunk('searchVideos',
@@ -57,7 +51,7 @@ export const search: any = createAsyncThunk('searchVideos',
     dispatch(setSearchPhrase(data.phrase));
 
     return state.headerReducer.selectedVideoPlatform === VideoPlatforms.YouTube ?
-        ytService.search(data.phrase, data?.nextPageToken) :
+        ytService.search(MAX_RESULTS_SEARCH, data.phrase, data?.nextPageToken) :
         vimeoService.search(data.phrase, data?.nextPageToken);
 });
 
@@ -91,6 +85,7 @@ export const headerSlice = createSlice({
                 if(state.loading) state.loading = false;
                 state.popular = {
                     nextPageToken: action.payload.nextPageToken,
+                    origin: VideoPlatforms.YouTube,
                     data: [ ...state.searchResult.data, ...action.payload.data ]
                 }
             },

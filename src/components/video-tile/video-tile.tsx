@@ -3,7 +3,7 @@ import {useState} from "react";
 import {useHistory} from "react-router-dom";
 
 import Rectangle from "../../skeletons/rectangle";
-import {IVideoExtended} from "../../models/youtube";
+import {IVideoExtended} from "../../models/videos";
 
 import styles from './video-tile.module.scss';
 
