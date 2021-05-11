@@ -36,9 +36,9 @@ const Watch: React.FC< WatchProps > = props => {
 
     return (
         <main className={styles.container} aria-label="watch view">
-            { index > 0 &&
+            { index > 0 ?
             <Link to={`/watch/${fromHomepage ? popular.data[index-1]?.id : searchResult.data[index-1]?.id}`}
-                  className={styles.button} />}
+                  className={styles.button} /> : <div className={styles.placeHolder} />}
             <div>
                 <iframe
                     width="853"
